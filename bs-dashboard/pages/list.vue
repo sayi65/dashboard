@@ -1,0 +1,134 @@
+<template>
+    <v-container grid-list-md text-xs-center>
+        <v-flex xs12>
+        <div>
+            <v-tabs
+            v-model="active"
+            color="cyan"
+            dark
+            slider-color="yellow"
+            >
+            <v-tab
+                v-for="n in 4"
+                :key="n"
+                ripple
+            >
+                {{ n }} 課
+
+            </v-tab>
+
+            <v-tab-item
+                v-for="n in 4"
+                :key="n"
+            >
+                <v-card flat>
+                    <v-card-title>
+                    <v-spacer></v-spacer>
+                    <v-text-field
+                        v-model="search"
+                        append-icon="search"
+                        label="検索"
+                        single-line
+                        hide-details
+                    ></v-text-field>
+                    </v-card-title>
+
+                    <v-data-table
+                            :headers="headers"
+                            :items="desserts"
+                            :loading="true"
+                            :search="search"
+                            class="elevation-1"
+                        >
+                        <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+                        <Table slot="items" slot-scope="props" ></table>
+                    </v-data-table>
+                </v-card>
+            </v-tab-item>
+            </v-tabs>
+            <Dialog />
+        </div>
+        </v-flex>
+    </v-container>
+</template>
+
+<script>
+import Dialog from '~/components/Dialog.vue'
+import Table from '~/components/Table.vue'
+
+  export default {
+    components: {
+        Dialog,
+        Table
+    },
+    data () {
+      return {
+        // dialog: false,
+        active: null,
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        search: '',
+        headers: [
+          {
+            text: '区分',
+            align: 'left',
+            value: 'classification'
+          },
+          { text: '契約',
+            align: 'left',
+            value: 'agreement' },
+          { text: '確定',
+            align: 'left',
+            value: 'orders' },
+          { text: 'ユーザ', value: 'users' },
+          { text: '営業', value: 'sales' },
+          { text: 'PM', value: 'pms' },
+          { text: 'PL', value: 'pls' },
+          { text: '金額区分', value: 'kubun' },
+          { text: '金額', value: 'amount' },
+          { text: '業務名/内容', value: 'pjname' },
+          { text: '開始時期', value: 'startdate' },
+          { text: '終了時期', value: 'enddate' },
+        ],
+        desserts: [
+          {
+            value: false,
+            classification: '案件',
+            agreement: '請負',
+            orders: '問題なし',
+            users: '大東実業㈱',
+            supervision: '4課',
+            sales: '向山M',
+            pms: 'Aさん',
+            pls: 'PAさん',
+            kubun: '確定',
+            amount: '100',
+            pjname: '運行管理システム保守',
+            startdate: '',
+            enddate:''
+          },
+          {
+            value: false,
+            classification: '進捗',
+            agreement: '請負',
+            orders: '問題なし',
+            users: '大東実業㈱',
+            supervision: '4課',
+            sales: '向山M',
+            pms: 'Aさん',
+            pls: 'PAさん',
+            kubun: '確定',
+            amount: '100',
+            pjname: '運行管理システム保守',
+            startdate: '',
+            enddate:''
+          },
+        ]
+      }
+    },
+    methods:{
+        showModal(){
+        }
+    }
+  }
+</script>
+
