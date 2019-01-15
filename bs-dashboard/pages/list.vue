@@ -92,26 +92,6 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
         dialog: false,
         active: null,
         search: '',
-        items:[
-        {
-          id: 1,
-          name: 'Applications :',
-          children: [
-            { id: 2, name: 'Calendar : app' },
-            { id: 3, name: 'Chrome : app' },
-            { id: 4, name: 'Webstorm : app' }
-          ]
-        },
-        {
-          id: 2,
-          name: 'Applications2 :',
-          children: [
-            { id: 2, name: 'Calendar : app' },
-            { id: 3, name: 'Chrome : app' },
-            { id: 4, name: 'Webstorm : app' }
-          ]
-        },
-        ],
         headers: [
           {
             text: '区分',
