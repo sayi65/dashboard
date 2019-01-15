@@ -34,14 +34,15 @@
                     </v-card-title>
 
                     <v-data-table
-                            :headers="headers"
-                            :items="desserts"
-                            :loading="true"
-                            :search="search"
-                            class="elevation-1"
-                        >
-                        <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
-                        <Table slot="items" slot-scope="props" ></table>
+                        :headers="headers"
+                        :loading="true"
+                        :items="desserts"
+                        :search="search"
+                        class="elevation-1"
+    >
+                    <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+                    <table  slot="desserts"
+            slot-scope="props" :props="props"/>
                     </v-data-table>
                 </v-card>
             </v-tab-item>
@@ -54,16 +55,16 @@
 
 <script>
 import Dialog from '~/components/Dialog.vue'
-import Table from '~/components/Table.vue'
+import table from '~/components/Table.vue'
 
   export default {
     components: {
         Dialog,
-        Table
+        table
     },
     data () {
       return {
-        // dialog: false,
+        dialog: false,
         active: null,
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         search: '',
