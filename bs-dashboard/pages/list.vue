@@ -1,21 +1,19 @@
 <template>
     <v-container grid-list-md text-xs-center>
         <v-flex xs12>
-        <div>
-            <v-tabs
-            v-model="active"
-            color="cyan"
-            dark
-            slider-color="yellow"
-            >
-            <v-tab
-                v-for="n in 4"
-                :key="n"
-                ripple
-            >
+            <div>
+                <v-tabs
+                v-model="active"
+                color="cyan"
+                dark
+                slider-color="yellow">
+                    <v-tab
+                    v-for="n in 4"
+                    :key="n"
+                    ripple>
                 {{ n }} 課
 
-            </v-tab>
+                </v-tab>
 
             <v-tab-item
                 v-for="n in 4"
@@ -33,17 +31,44 @@
                     ></v-text-field>
                     </v-card-title>
 
-                    <v-data-table
-                        :headers="headers"
-                        :loading="true"
-                        :items="desserts"
-                        :search="search"
-                        class="elevation-1"
+             <v-expansion-panel popout expand>
+    <v-expansion-panel-content
+      v-for="(item,i) in 5"
+      :key="i"
     >
-                    <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
-                    <table  slot="desserts"
-            slot-scope="props" :props="props"/>
-                    </v-data-table>
+        <v-icon slot="actions" color="cyan">$vuetify.icons.expand</v-icon>
+        <div slot="header" :open="open">2019-01-11</div>
+            <v-data-table
+             :headers="headers"
+             :loading="true"
+             :items="desserts"
+             :search="search"
+            class="elevation-1"
+    >
+            <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+            
+            <template slot="items" slot-scope="props">
+
+            <td>{{ props.item.classification }}</td>
+            <td class="text-xs-right">{{ props.item.agreement }}</td>
+            <td class="text-xs-right">{{ props.item.orders }}</td>
+            <td class="text-xs-right">{{ props.item.users }}</td>
+            <td class="text-xs-right">{{ props.item.sales }}</td>
+            <td class="text-xs-right">{{ props.item.pms }}</td>
+            <td class="text-xs-right">{{ props.item.pls }}</td>
+            <td class="text-xs-right">{{ props.item.kubun }}</td>
+            <td class="text-xs-right">{{ props.item.amount }}</td>
+            <td class="text-xs-right">{{ props.item.pjname }}</td>
+            <td class="text-xs-right">{{ props.item.startdate }}</td>
+            <td class="text-xs-right">{{ props.item.enddate }}</td>
+            </template>
+        </v-data-table>      
+
+
+    </v-expansion-panel-content>
+  </v-expansion-panel>
+
+
                 </v-card>
             </v-tab-item>
             </v-tabs>
@@ -55,19 +80,38 @@
 
 <script>
 import Dialog from '~/components/Dialog.vue'
-import table from '~/components/Table.vue'
+
+const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
 
   export default {
     components: {
-        Dialog,
-        table
+        Dialog
     },
     data () {
       return {
         dialog: false,
         active: null,
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         search: '',
+        items:[
+        {
+          id: 1,
+          name: 'Applications :',
+          children: [
+            { id: 2, name: 'Calendar : app' },
+            { id: 3, name: 'Chrome : app' },
+            { id: 4, name: 'Webstorm : app' }
+          ]
+        },
+        {
+          id: 2,
+          name: 'Applications2 :',
+          children: [
+            { id: 2, name: 'Calendar : app' },
+            { id: 3, name: 'Chrome : app' },
+            { id: 4, name: 'Webstorm : app' }
+          ]
+        },
+        ],
         headers: [
           {
             text: '区分',
@@ -94,6 +138,70 @@ import table from '~/components/Table.vue'
           {
             value: false,
             classification: '案件',
+            agreement: '請負',
+            orders: '問題なし',
+            users: '大東実業㈱',
+            supervision: '4課',
+            sales: '向山M',
+            pms: 'Aさん',
+            pls: 'PAさん',
+            kubun: '確定',
+            amount: '100',
+            pjname: '運行管理システム保守',
+            startdate: '',
+            enddate:''
+          },
+          {
+            value: false,
+            classification: '進捗',
+            agreement: '請負',
+            orders: '問題なし',
+            users: '大東実業㈱',
+            supervision: '4課',
+            sales: '向山M',
+            pms: 'Aさん',
+            pls: 'PAさん',
+            kubun: '確定',
+            amount: '100',
+            pjname: '運行管理システム保守',
+            startdate: '',
+            enddate:''
+          },
+          {
+            value: false,
+            classification: '進捗',
+            agreement: '請負',
+            orders: '問題なし',
+            users: '大東実業㈱',
+            supervision: '4課',
+            sales: '向山M',
+            pms: 'Aさん',
+            pls: 'PAさん',
+            kubun: '確定',
+            amount: '100',
+            pjname: '運行管理システム保守',
+            startdate: '',
+            enddate:''
+          },
+          {
+            value: false,
+            classification: '進捗',
+            agreement: '請負',
+            orders: '問題なし',
+            users: '大東実業㈱',
+            supervision: '4課',
+            sales: '向山M',
+            pms: 'Aさん',
+            pls: 'PAさん',
+            kubun: '確定',
+            amount: '100',
+            pjname: '運行管理システム保守',
+            startdate: '',
+            enddate:''
+          },
+          {
+            value: false,
+            classification: '進捗',
             agreement: '請負',
             orders: '問題なし',
             users: '大東実業㈱',
