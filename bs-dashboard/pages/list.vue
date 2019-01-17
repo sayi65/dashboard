@@ -37,7 +37,7 @@
       :key="i"
     >
         <v-icon slot="actions" color="cyan">$vuetify.icons.expand</v-icon>
-        <div slot="header" :open="open">2019-01-11</div>
+        <div slot="header" >2019-01-11</div>
             <v-data-table
              :headers="headers"
              :loading="true"
@@ -48,19 +48,20 @@
             <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
             
             <template slot="items" slot-scope="props">
-
-            <td>{{ props.item.classification }}</td>
-            <td class="text-xs-right">{{ props.item.agreement }}</td>
-            <td class="text-xs-right">{{ props.item.orders }}</td>
-            <td class="text-xs-right">{{ props.item.users }}</td>
-            <td class="text-xs-right">{{ props.item.sales }}</td>
-            <td class="text-xs-right">{{ props.item.pms }}</td>
-            <td class="text-xs-right">{{ props.item.pls }}</td>
-            <td class="text-xs-right">{{ props.item.kubun }}</td>
-            <td class="text-xs-right">{{ props.item.amount }}</td>
-            <td class="text-xs-right">{{ props.item.pjname }}</td>
-            <td class="text-xs-right">{{ props.item.startdate }}</td>
-            <td class="text-xs-right">{{ props.item.enddate }}</td>
+              <tr @click="showModal(props.item, openDialog = true)">
+                <td>{{ props.item.classification }}</td>
+                <td class="text-xs-center">{{ props.item.agreement }}</td>
+                <td class="text-xs-center">{{ props.item.orders }}</td>
+                <td class="text-xs-center">{{ props.item.users }}</td>
+                <td class="text-xs-center">{{ props.item.sales }}</td>
+                <td class="text-xs-center">{{ props.item.pms }}</td>
+                <td class="text-xs-center">{{ props.item.pls }}</td>
+                <td class="text-xs-center">{{ props.item.kubun }}</td>
+                <td class="text-xs-center">{{ props.item.amount }}</td>
+                <td class="text-xs-center">{{ props.item.pjname }}</td>
+                <td class="text-xs-center">{{ props.item.startdate }}</td>
+                <td class="text-xs-center">{{ props.item.enddate }}</td>
+              </tr>
             </template>
         </v-data-table>      
 
@@ -72,14 +73,16 @@
                 </v-card>
             </v-tab-item>
             </v-tabs>
-            <Dialog />
         </div>
         </v-flex>
+        <Dialog />
     </v-container>
 </template>
 
 <script>
 import Dialog from '~/components/Dialog.vue'
+
+import { mapMutations } from 'vuex'
 
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -215,8 +218,10 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
       }
     },
     methods:{
-        showModal(){
-        }
+        showModal(item, isDialog){
+          this.toggleModal(isDialog)
+        },
+        ...mapMutations({ toggleModal :'list/toggleModal'})
     }
   }
 </script>
