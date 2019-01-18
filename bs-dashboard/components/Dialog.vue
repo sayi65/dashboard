@@ -9,7 +9,7 @@
           <v-toolbar-title>進捗一覧</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark flat @click="showModal(isDialog = false)">Save</v-btn>
+            <v-btn dark flat @click="showModal(isDialog = false)">進捗追加</v-btn>
           </v-toolbar-items>
         </v-toolbar>
         
@@ -18,35 +18,11 @@
             <v-timeline-item
               v-for="(item, i) in items"
               color="#26c6da"
-              :icon="item.icon"
               :key="i"
-              fill-dot
-            >
-              <v-card
-                color="#26c6da"
-                dark
-                class="mx-auto"
-                max-width="700"
-              >
-                <v-card-title class="title">
-                  <div class="text-sm-left">
-                    <v-chip
-                      text-color="white"
-                      close
-                      color="red">問題なし</v-chip>
-                  </div>
-                  Lorem Ipsum Dolor</v-card-title>
-                <v-card-text class="white text--primary">
-                  <p>Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at. Est et nobis iisque percipit, an vim zril disputando voluptatibus, vix an salutandi sententiae.</p>
-                  <v-btn
-                    :color="item.color"
-                    class="mx-0"
-                    outline
-                  >
-                    編集
-                  </v-btn>
-                </v-card-text>
-              </v-card>
+              fill-dot>
+              
+              <Card v-model="item[i]"/>
+
             </v-timeline-item>
           </v-timeline>
         </v-container>
@@ -58,38 +34,51 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import Card from '~/components/Card.vue'
+import { mapMutations, mapState } from 'vuex'
   export default {
+    components: {
+        Card
+    },
     data: () => ({
      items: [
         {
-          color: 'red lighten-2',
-          icon: 'mdi-star'
+          color: 'red',
+          tittle: '大東1',
+          value:'テスト１'
         },
         {
-          color: 'purple darken-1',
-          icon: 'mdi-book-variant'
+          color: 'red',
+          tittle: '大東2',
+          value:'テスト2'
         },
         {
-          color: 'green lighten-1',
-          icon: 'mdi-airballoon'
+          color: 'green',
+          tittle: '大東3',
+          value:'テスト3'
         },
         {
-          color: 'indigo',
-          icon: 'mdi-buffer'
+          color: 'green',
+          tittle: '大東4',
+          value:'テスト4'
         }
       ]
     }),
     computed: {
-      dialog () {
-        return this.$store.state.list.open
-      }
+      // dialog () {
+      //   return this.$store.state.list.open
+      // },
+      ...mapState({
+        dialog: state => state.list.open
+      }),
     },
     methods:{
         showModal(isDialog){
           this.toggleModal(isDialog)
         },
-        ...mapMutations({ toggleModal :'list/toggleModal'})
+        ...mapMutations({ 
+          toggleModal :'list/toggleModal',
+        })
     },
   }
 </script>
