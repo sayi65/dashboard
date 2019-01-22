@@ -1,15 +1,29 @@
 <template>
-  <v-layout row justify-center>
-    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+  <v-layout 
+    row 
+    justify-center>
+    <v-dialog 
+      v-model="dialog" 
+      fullscreen 
+      hide-overlay 
+      transition="dialog-bottom-transition">
       <v-card>
-        <v-toolbar dark color="primary">
-          <v-btn icon dark @click="showModal(isDialog = false)">
+        <v-toolbar 
+          dark 
+          color="primary">
+          <v-btn 
+            icon 
+            dark 
+            @click="showModal(isDialog = false)">
             <v-icon>close</v-icon>
           </v-btn>
           <v-toolbar-title>進捗一覧</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark flat @click="showModal(isDialog = false)">進捗追加</v-btn>
+            <v-btn 
+              dark 
+              flat 
+              @click="showModal(isDialog = false)">進捗追加</v-btn>
           </v-toolbar-items>
         </v-toolbar>
         
@@ -22,7 +36,7 @@
               fill-dot>
               <span slot="opposite">Tus eu perfecto</span>
               
-              <card :item='item'/>
+              <Card :item='item'/>
 
             </v-timeline-item>
           </v-timeline>
@@ -67,9 +81,6 @@ import { mapMutations, mapState, mapActions } from 'vuex'
       ]
     }),
     computed: {
-      // dialog () {
-      //   return this.$store.state.list.open
-      // },
       ...mapState({
         dialog: state => state.list.open
       }),
@@ -80,7 +91,6 @@ import { mapMutations, mapState, mapActions } from 'vuex'
         },
         ...mapMutations({ 
           toggleModal :'list/toggleModal',
-          // showItem: 'dialog/showItem'
         })
     },
   }

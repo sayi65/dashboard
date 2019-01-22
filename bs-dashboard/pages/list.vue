@@ -1,24 +1,25 @@
 <template>
-    <v-container grid-list-md text-xs-center>
+    <v-container 
+      grid-list-md 
+      text-xs-center>
         <v-flex xs12>
             <div>
                 <v-tabs
-                v-model="active"
-                color="cyan"
-                dark
-                slider-color="yellow">
-                    <v-tab
-                    v-for="n in 4"
-                    :key="n"
-                    ripple>
-                {{ n }} 課
-
+                  v-model="active"
+                  color="cyan"
+                  dark
+                  slider-color="yellow">
+                      <v-tab
+                      v-for="n in 4"
+                      :key="n"
+                      ripple>
+                  {{ n }} 課
                 </v-tab>
 
-            <v-tab-item
-                v-for="n in 4"
-                :key="n"
-            >
+                <v-tab-item
+                    v-for="n in 4"
+                    :key="n"
+                >
                 <v-card flat>
                     <v-card-title>
                     <v-spacer></v-spacer>
@@ -31,13 +32,17 @@
                     ></v-text-field>
                     </v-card-title>
 
-             <v-expansion-panel popout expand>
+             <v-expansion-panel 
+               popout 
+               expand>
     <v-expansion-panel-content
-      v-for="(item,i) in 5"
+      v-for="(date,i) in dates"
       :key="i"
     >
-        <v-icon slot="actions" color="cyan">$vuetify.icons.expand</v-icon>
-        <div slot="header" >2019-01-11</div>
+        <v-icon 
+          slot="actions" 
+          color="cyan">$vuetify.icons.expand</v-icon>
+        <div slot="header" >{{ date }}</div>
             <v-data-table
              :headers="headers"
              :loading="true"
@@ -45,9 +50,14 @@
              :search="search"
             class="elevation-1"
     >
-            <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+            <v-progress-linear 
+              slot="progress" 
+              color="blue" 
+              indeterminate></v-progress-linear>
             
-            <template slot="items" slot-scope="props">
+            <template 
+              slot="items" 
+              slot-scope="props">
               <tr @click="showModal(props.item, openDialog = true)">
                 <td>{{ props.item.classification }}</td>
                 <td class="text-xs-center">{{ props.item.agreement }}</td>
@@ -116,6 +126,13 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
           { text: '業務名/内容', value: 'pjname' },
           { text: '開始時期', value: 'startdate' },
           { text: '終了時期', value: 'enddate' },
+        ],
+        dates:[
+          '2019-01',
+          '2018-12',
+          '2018-11',
+          '2018-10',
+          '2018-09'
         ],
         desserts: [
           {

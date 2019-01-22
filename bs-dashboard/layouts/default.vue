@@ -5,7 +5,16 @@
       :clipped="clipped"
       v-model="drawer"
       fixed
+      persistent
+      dark
+      floating
+      width="260"
       app
+    >
+    <v-img
+      src="https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg"
+      gradient="to bottom right, rgba(0, 0, 0, 0.33), rgba(25,32,72,.7)"
+      height="100%"
     >
       <v-list>
         <v-list-tile
@@ -23,6 +32,7 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
+    </v-img>
     </v-navigation-drawer>
     <v-toolbar
       :clipped-left="clipped"
@@ -62,7 +72,8 @@
         fixed: false,
         items: [
           { icon: 'apps', title: 'ホーム', to: '/' },
-          { icon: 'bubble_chart', title: '進捗入力', to: '/inspire' },
+          { icon: 'bubble_chart', title: 'PJ追加', to: '/pj_add' },
+          { icon: 'bubble_chart', title: 'PJ一覧', to: '/pj_list' },
           { icon: 'bubble_chart', title: '進捗一覧', to: '/list' },
         ],
         miniVariant: false,

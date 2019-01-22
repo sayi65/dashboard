@@ -25,14 +25,17 @@
             name="input-7-1"
             class="black--text"
             :value="item.value"
-            hint="進捗入力"
+            :hint="hint"
             ></v-textarea>
 
-            <v-btn fab dark small
-            color="indigo"
-            class="mx-0"
-            @click="toggleBtn(item)"
-            outline>
+            <v-btn 
+              fab 
+              dark 
+              small
+              color="indigo"
+              class="mx-0"
+              @click="toggleBtn(item)"
+              outline>
                 <v-icon dark>edit</v-icon>
             </v-btn>
         </v-card-text>
@@ -42,29 +45,30 @@
 <script>
 
   export default {
-    // props:{
-    //     item:{
-    //         type:Object,
-    //         required:false,
-    //         default: () => ({
-    //                 color: 'red',
-    //                 tittle: '大東1',
-    //                 value:'テスト１'
-    //         })
-    //     }
-    // },
-    props: ['item'],
+    props:{
+        item:{
+            type:Object,
+            required:false,
+            default: () => ({
+                    color: '',
+                    tittle: '',
+                    value:''
+            })
+        }
+    },
     data: () => ({
      close:false,
      outline:false,
-     readonly:true
+     readonly:true,
+     hint: ''
     }),
     methods:{
-        // toggleBtn(item, event){
-        //   this.close =!this.close
-        //   this.outline =!this.outline
-        //   this.readonly = !this.readonly
-        // }
+        toggleBtn(item, event){
+          this.close =!this.close
+          this.outline =!this.outline
+          this.readonly = !this.readonly
+          this.hint = this.readonly ? '' : '進捗入力' 
+        }
     },
   }
 </script>
