@@ -13,7 +13,7 @@
                  問題なし
                 </v-chip>
             </div>
-            {{ item.tittle }}
+            状況({{ item.tittle }})
         </v-card-title>
 
         <v-card-text class="white">

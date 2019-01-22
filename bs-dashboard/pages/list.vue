@@ -43,13 +43,15 @@
           slot="actions" 
           color="cyan">$vuetify.icons.expand</v-icon>
         <div slot="header" >{{ date }}</div>
+
             <v-data-table
              :headers="headers"
              :loading="true"
              :items="desserts"
              :search="search"
-            class="elevation-1"
-    >
+             class="elevation-1">
+
+
             <v-progress-linear 
               slot="progress" 
               color="blue" 
@@ -59,16 +61,10 @@
               slot="items" 
               slot-scope="props">
               <tr @click="showModal(props.item, openDialog = true)">
-                <td>{{ props.item.classification }}</td>
-                <td class="text-xs-center">{{ props.item.agreement }}</td>
-                <td class="text-xs-center">{{ props.item.orders }}</td>
                 <td class="text-xs-center">{{ props.item.users }}</td>
-                <td class="text-xs-center">{{ props.item.sales }}</td>
+                <td class="text-xs-center">{{ props.item.pjname }}</td>
                 <td class="text-xs-center">{{ props.item.pms }}</td>
                 <td class="text-xs-center">{{ props.item.pls }}</td>
-                <td class="text-xs-center">{{ props.item.kubun }}</td>
-                <td class="text-xs-center">{{ props.item.amount }}</td>
-                <td class="text-xs-center">{{ props.item.pjname }}</td>
                 <td class="text-xs-center">{{ props.item.startdate }}</td>
                 <td class="text-xs-center">{{ props.item.enddate }}</td>
               </tr>
@@ -106,24 +102,10 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
         active: null,
         search: '',
         headers: [
-          {
-            text: '区分',
-            align: 'left',
-            value: 'classification'
-          },
-          { text: '契約',
-            align: 'left',
-            value: 'agreement' },
-          { text: '確定',
-            align: 'left',
-            value: 'orders' },
           { text: 'ユーザ', value: 'users' },
-          { text: '営業', value: 'sales' },
+          { text: '業務名/内容', value: 'pjname' },
           { text: 'PM', value: 'pms' },
           { text: 'PL', value: 'pls' },
-          { text: '金額区分', value: 'kubun' },
-          { text: '金額', value: 'amount' },
-          { text: '業務名/内容', value: 'pjname' },
           { text: '開始時期', value: 'startdate' },
           { text: '終了時期', value: 'enddate' },
         ],

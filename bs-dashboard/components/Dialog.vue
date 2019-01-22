@@ -23,7 +23,7 @@
             <v-btn 
               dark 
               flat 
-              @click="showModal(isDialog = false)">進捗追加</v-btn>
+              @click="addCard()">進捗追加</v-btn>
           </v-toolbar-items>
         </v-toolbar>
         
@@ -34,10 +34,8 @@
               color="#26c6da"
               :key="i"
               fill-dot>
-              <span slot="opposite">Tus eu perfecto</span>
               
               <Card :item='item'/>
-
             </v-timeline-item>
           </v-timeline>
         </v-container>
@@ -51,6 +49,9 @@
 <script>
 import Card from '~/components/Card.vue'
 
+import 'moment/locale/ja'
+import moment from 'moment'
+
 import { mapMutations, mapState, mapActions } from 'vuex'
   export default {
     components: {
@@ -60,22 +61,22 @@ import { mapMutations, mapState, mapActions } from 'vuex'
      items: [
         {
           color: 'red',
-          tittle: '大東1',
+          tittle: '9/28',
           value:'テスト１'
         },
         {
           color: 'red',
-          tittle: '大東2',
+          tittle: '9/20',
           value:'テスト2'
         },
         {
           color: 'green',
-          tittle: '大東3',
+          tittle: '9/12',
           value:'テスト3'
         },
         {
           color: 'green',
-          tittle: '大東4',
+          tittle: '9/4',
           value:'テスト4'
         }
       ]
@@ -86,6 +87,9 @@ import { mapMutations, mapState, mapActions } from 'vuex'
       }),
     },
     methods:{
+        addCard(){
+          this.items.unshift({color: '', tittle: moment().day(4).format('YYYY/MM/DD') , value: ''})
+        },
         showModal(isDialog){
           this.toggleModal(isDialog)
         },
