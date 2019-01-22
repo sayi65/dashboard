@@ -31,12 +31,12 @@
             <td class="text-xs-center">{{ props.item.agreement }}</td>
             <td class="text-xs-center">{{ props.item.orders }}</td>
             <td class="text-xs-center">{{ props.item.users }}</td>
+            <td class="text-xs-center">{{ props.item.pjname }}</td>
             <td class="text-xs-center">{{ props.item.sales }}</td>
             <td class="text-xs-center">{{ props.item.pms }}</td>
             <td class="text-xs-center">{{ props.item.pls }}</td>
             <td class="text-xs-center">{{ props.item.kubun }}</td>
             <td class="text-xs-center">{{ props.item.amount }}</td>
-            <td class="text-xs-center">{{ props.item.pjname }}</td>
             <td class="text-xs-center">{{ props.item.startdate }}</td>
             <td class="text-xs-center">{{ props.item.enddate }}</td>
       </template>
@@ -55,6 +55,10 @@
 
 <script>
   export default {
+    name:'pj_list',
+    watchQuery: [
+            'search'
+    ],
     data () {
       return {
         search: '',
@@ -73,6 +77,9 @@
           { text: 'ユーザ', 
             align: 'left',
             value: 'users' },
+          { text: '業務名/内容', 
+            align: 'left',
+            value: 'pjname' },
           { text: '営業', 
             align: 'left',
             value: 'sales' },
@@ -88,9 +95,6 @@
           { text: '金額', 
             align: 'left',
             value: 'amount' },
-          { text: '業務名/内容', 
-            align: 'left',
-            value: 'pjname' },
           { text: '開始時期', 
             align: 'left',
             value: 'startdate' },
@@ -197,6 +201,10 @@
           }
         ]
       }
-    }
+    },
+    asyncData({ query, error }) {
+      console.log(query.search)
+      return {search : query.search}
+    },
   }
 </script>

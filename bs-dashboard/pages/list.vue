@@ -62,7 +62,12 @@
               slot-scope="props">
               <tr @click="showModal(props.item, openDialog = true)">
                 <td class="text-xs-center">{{ props.item.users }}</td>
-                <td class="text-xs-center">{{ props.item.pjname }}</td>
+                <td class="text-xs-center">
+                  <nuxt-link
+                    :to="{path: 'pj_list' ,  query: { search: props.item.pjname} }">
+                    {{ props.item.pjname }}
+                  </nuxt-link>
+                </td>
                 <td class="text-xs-center">{{ props.item.pms }}</td>
                 <td class="text-xs-center">{{ props.item.pls }}</td>
                 <td class="text-xs-center">{{ props.item.startdate }}</td>
@@ -93,6 +98,7 @@ import { mapMutations } from 'vuex'
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
 
   export default {
+    name: 'progress-list',
     components: {
         Dialog
     },
