@@ -20,8 +20,9 @@
               color="#26c6da"
               :key="i"
               fill-dot>
+              <span slot="opposite">Tus eu perfecto</span>
               
-              <Card v-model="item[i]"/>
+              <card :item='item'/>
 
             </v-timeline-item>
           </v-timeline>
@@ -35,7 +36,8 @@
 
 <script>
 import Card from '~/components/Card.vue'
-import { mapMutations, mapState } from 'vuex'
+
+import { mapMutations, mapState, mapActions } from 'vuex'
   export default {
     components: {
         Card
@@ -78,6 +80,7 @@ import { mapMutations, mapState } from 'vuex'
         },
         ...mapMutations({ 
           toggleModal :'list/toggleModal',
+          // showItem: 'dialog/showItem'
         })
     },
   }

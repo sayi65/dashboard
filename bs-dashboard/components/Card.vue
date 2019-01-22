@@ -41,41 +41,30 @@
 
 <script>
 
-import { mapMutations, mapState } from 'vuex'
-
   export default {
+    // props:{
+    //     item:{
+    //         type:Object,
+    //         required:false,
+    //         default: () => ({
+    //                 color: 'red',
+    //                 tittle: '大東1',
+    //                 value:'テスト１'
+    //         })
+    //     }
+    // },
+    props: ['item'],
     data: () => ({
      close:false,
      outline:false,
-     readonly:true,
-    //  item:{
-    //      color: 'red',
-    //       tittle: '大東1',
-    //       value:'テスト１'
-    //  },
+     readonly:true
     }),
-    computed: {
-        ...mapState({
-            item: state => state.dialog.item
-        }),
-        test(){
-            return console.log(state => state.dialog.item)
-            
-        }
-    },
     methods:{
-        // showModal(isDialog){
-        //   this.toggleModal(isDialog)
-        // },
-        // ...mapMutations({ 
-        //   toggleModal :'list/toggleModal'
-        // }),
-        toggleBtn(item, event){
-          console.log(event)
-          this.close =!this.close
-          this.outline =!this.outline
-          this.readonly = !this.readonly
-        }
+        // toggleBtn(item, event){
+        //   this.close =!this.close
+        //   this.outline =!this.outline
+        //   this.readonly = !this.readonly
+        // }
     },
   }
 </script>
