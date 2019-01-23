@@ -8,10 +8,32 @@
         <v-card-title class="title white--text">
             <div class="text-sm-left">
                 <v-chip
-                :close='close'
-                :color="item.color">
-                 問題なし
+                    :close='close'
+                    v-if="item.status === 0"
+                    @input="onClose(item)"
+                    color="green">
+                    問題なし
                 </v-chip>
+                <v-chip
+                    :close='close'
+                    v-else-if="item.status === 1"
+                    @input="onClose(item)"
+                    color="red">
+                    問題あり
+                </v-chip>
+                <v-combobox
+                    style="width:80px;padding:0"
+                    id="comb"
+                    ref="comb"
+                    v-else
+                    small-chips
+                    v-model="select"
+                    color="cray"
+                    single-line
+                    @input="onSelect(item, select)"
+                    :items="chipsItem">
+                </v-combobox>
+            
             </div>
             状況({{ item.tittle }})
         </v-card-title>
@@ -27,17 +49,29 @@
             :value="item.value"
             :hint="hint"
             ></v-textarea>
-
+            <v-flex>
             <v-btn 
-              fab 
+              flat
               dark 
               small
               color="indigo"
               class="mx-0"
               @click="toggleBtn(item)"
               outline>
-                <v-icon dark>edit</v-icon>
+                編集
             </v-btn>
+
+            <v-btn 
+              flat 
+              dark 
+              small
+              color="indigo"
+              class="mx-0"
+              @click="addBtn(item)"
+              outline>
+                追加
+            </v-btn>
+            </v-flex>
         </v-card-text>
     </v-card>
 </template>
@@ -50,7 +84,7 @@
             type:Object,
             required:false,
             default: () => ({
-                    color: '',
+                    status: 3,
                     tittle: '',
                     value:''
             })
@@ -60,14 +94,36 @@
      close:false,
      outline:false,
      readonly:true,
-     hint: ''
+     hint: '',
+     chip :true,
+     chipsItem:[
+         '問題なし', '問題あり'
+     ],
+     select:''
     }),
     methods:{
         toggleBtn(item, event){
           this.close =!this.close
           this.outline =!this.outline
           this.readonly = !this.readonly
-          this.hint = this.readonly ? '' : '進捗入力' 
+          this.hint = this.readonly ? '' : '進捗入力'
+        },
+        onClose(item){
+            if(item.status === 0 || item.status === 1){
+                item.status = 3
+                if(this.select != ''){
+                    this.select = ''
+                    
+                }
+            }
+            console.log(this.$refs)
+        },
+        onSelect(item,select){
+            if(select == '問題なし'){
+                item.status = 0
+            } else if(select == '問題あり'){
+                item.status = 1
+            }
         }
     },
   }

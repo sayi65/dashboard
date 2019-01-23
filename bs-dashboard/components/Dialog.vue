@@ -60,22 +60,22 @@ import { mapMutations, mapState, mapActions } from 'vuex'
     data: () => ({
      items: [
         {
-          color: 'red',
+          status: 1,
           tittle: '9/28',
           value:'テスト１'
         },
         {
-          color: 'red',
+          status: 1,
           tittle: '9/20',
           value:'テスト2'
         },
         {
-          color: 'green',
+          status: 0,
           tittle: '9/12',
           value:'テスト3'
         },
         {
-          color: 'green',
+          status: 0,
           tittle: '9/4',
           value:'テスト4'
         }
@@ -88,7 +88,11 @@ import { mapMutations, mapState, mapActions } from 'vuex'
     },
     methods:{
         addCard(){
-          this.items.unshift({color: '', tittle: moment().day(4).format('YYYY/MM/DD') , value: ''})
+          console.log(this.items[0])
+          if(this.items[0].tittle != moment().day(4).format('YYYY/MM/DD')){
+            this.items.unshift({status: 0, tittle: moment().day(4).format('YYYY/MM/DD') , value: ''})
+          }
+          
         },
         showModal(isDialog){
           this.toggleModal(isDialog)
