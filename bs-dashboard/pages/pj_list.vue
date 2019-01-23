@@ -202,9 +202,8 @@
         ]
       }
     },
-    asyncData({ query, error }) {
-      console.log(query.search)
-      return {search : query.search}
+    asyncData({ params, error }) {
+      return {search : params.search}
     },
   }
 </script>

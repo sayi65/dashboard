@@ -2,91 +2,85 @@
     <v-container 
       grid-list-md 
       text-xs-center>
-        <v-flex xs12>
-            <div>
-                <v-tabs
-                  v-model="active"
-                  color="cyan"
-                  dark
-                  slider-color="yellow">
-                      <v-tab
-                      v-for="n in 4"
-                      :key="n"
-                      ripple>
-                  {{ n }} 課
-                </v-tab>
+      <v-flex xs12>
+        <div>
+          <v-tabs
+            v-model="active"
+            color="cyan"
+            dark
+            slider-color="yellow">
+            <v-tab
+              v-for="n in 4"
+              :key="n"
+              ripple>
+              {{ n }} 課
+            </v-tab>
 
-                <v-tab-item
-                    v-for="n in 4"
-                    :key="n"
-                >
+              <v-tab-item
+                v-for="n in 4"
+                :key="n">
                 <v-card flat>
-                    <v-card-title>
+                  <v-card-title>
                     <v-spacer></v-spacer>
                     <v-text-field
-                        v-model="search"
-                        append-icon="search"
-                        label="検索"
-                        single-line
-                        hide-details
-                    ></v-text-field>
-                    </v-card-title>
+                      v-model="search"
+                      append-icon="search"
+                      label="検索"
+                      single-line
+                      hide-details>
+                    </v-text-field>
+                  </v-card-title>
 
-             <v-expansion-panel 
-               popout 
-               expand>
-    <v-expansion-panel-content
-      v-for="(date,i) in dates"
-      :key="i"
-    >
-        <v-icon 
-          slot="actions" 
-          color="cyan">$vuetify.icons.expand</v-icon>
-        <div slot="header" >{{ date }}</div>
+                  <v-expansion-panel 
+                    popout 
+                    expand>
+                    <v-expansion-panel-content
+                      v-for="(date,i) in dates"
+                      :key="i">
 
-            <v-data-table
-             :headers="headers"
-             :loading="true"
-             :items="desserts"
-             :search="search"
-             class="elevation-1">
+                      <div slot="header" >
+                        {{ date }}
+                      </div>
 
+                      <v-data-table
+                      :headers="headers"
+                      :loading="true"
+                      :items="desserts"
+                      :search="search"
+                      class="elevation-1">
 
-            <v-progress-linear 
-              slot="progress" 
-              color="blue" 
-              indeterminate></v-progress-linear>
+                        <v-progress-linear 
+                          slot="progress" 
+                          color="blue" 
+                          indeterminate></v-progress-linear>
             
-            <template 
-              slot="items" 
-              slot-scope="props">
-              <tr @click="showModal(props.item, openDialog = true)">
-                <td class="text-xs-center">{{ props.item.users }}</td>
-                <td class="text-xs-center">
-                  <nuxt-link
-                    :to="{path: 'pj_list' ,  query: { search: props.item.pjname} }">
-                    {{ props.item.pjname }}
-                  </nuxt-link>
-                </td>
-                <td class="text-xs-center">{{ props.item.pms }}</td>
-                <td class="text-xs-center">{{ props.item.pls }}</td>
-                <td class="text-xs-center">{{ props.item.startdate }}</td>
-                <td class="text-xs-center">{{ props.item.enddate }}</td>
-              </tr>
-            </template>
-        </v-data-table>      
-
-
-    </v-expansion-panel-content>
-  </v-expansion-panel>
-
-
-                </v-card>
+                        <template 
+                          slot="items" 
+                          slot-scope="props">
+                          <tr @click="showModal(props.item, openDialog = true)">
+                            <td class="text-xs-center">{{ props.item.users }}</td>
+                            <td class="text-xs-center">
+                              <nuxt-link
+                                @click.native="stop"
+                                :to="{name: 'pj_list' ,  params: { search: props.item.pjname} }">
+                                {{ props.item.pjname }}
+                              </nuxt-link>
+                            </td>
+                            <td class="text-xs-center">{{ props.item.pms }}</td>
+                            <td class="text-xs-center">{{ props.item.pls }}</td>
+                            <td class="text-xs-center">{{ props.item.startdate }}</td>
+                            <td class="text-xs-center">{{ props.item.enddate }}</td>
+                          </tr>
+                        </template>
+                      </v-data-table>      
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </v-card>
             </v-tab-item>
-            </v-tabs>
+          </v-tabs>
         </div>
-        </v-flex>
-        <Dialog />
+      </v-flex>
+      <Dialog />
     </v-container>
 </template>
 
@@ -226,7 +220,13 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
         showModal(item, isDialog){
           this.toggleModal(isDialog)
         },
-        ...mapMutations({ toggleModal :'list/toggleModal'})
+        stop(e,isDialog){
+          e.preventDefault()
+          console.log(1111)
+          this.toggleModal(isDialog = false)
+          
+        },
+        ...mapMutations({ toggleModal :'list/toggleModal'}),
     }
   }
 </script>
