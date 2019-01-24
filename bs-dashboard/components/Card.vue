@@ -1,4 +1,5 @@
 <template>
+    
     <v-card
     color="#26c6da"
     dark
@@ -21,19 +22,29 @@
                     color="red">
                     問題あり
                 </v-chip>
-                <v-combobox
-                    style="width:80px;padding:0"
-                    id="comb"
-                    ref="comb"
+                <v-menu
                     v-else
-                    small-chips
-                    v-model="select"
-                    color="cray"
-                    single-line
-                    @input="onSelect(item, select)"
-                    :items="chipsItem">
-                </v-combobox>
-            
+                    v-model="showMenu"
+                    origin="center">
+
+                    <v-chip
+                    slot="activator"
+                    ref="chip"
+                    close
+                    readonly
+                    color="red">
+                    問題あり
+                    </v-chip>
+
+                    <v-list>
+                        <v-list-tile
+                        v-for="(chips, i) in chipsItem"
+                        :key="i"
+                        @click="onSelect(chips, item)">
+                        <v-list-tile-title>{{ chips }}</v-list-tile-title>
+                        </v-list-tile>
+                    </v-list>
+                </v-menu>
             </div>
             状況({{ item.tittle }})
         </v-card-title>
@@ -96,10 +107,12 @@
      readonly:true,
      hint: '',
      chip :true,
-     chipsItem:[
-         '問題なし', '問題あり'
-     ],
-     select:''
+     chipsItem:{
+        0: '問題なし', 
+        1:'問題あり'
+    },
+     select:'',
+     showMenu: false
     }),
     methods:{
         toggleBtn(item, event){
@@ -113,12 +126,13 @@
                 item.status = 3
                 if(this.select != ''){
                     this.select = ''
-                    
                 }
             }
             console.log(this.$refs)
+            this.showMenu = !this.showMenu
         },
-        onSelect(item,select){
+        onSelect(select, item){
+
             if(select == '問題なし'){
                 item.status = 0
             } else if(select == '問題あり'){

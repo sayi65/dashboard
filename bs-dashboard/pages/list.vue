@@ -2,6 +2,10 @@
     <v-container 
       grid-list-md 
       text-xs-center>
+
+      <v-subheader>
+        プロジェクト進捗一覧
+      </v-subheader>
       <v-flex xs12>
         <div>
           <v-tabs
