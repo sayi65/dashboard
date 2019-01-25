@@ -25,13 +25,11 @@
       <v-flex xs3>
         <v-chip
                     v-if="item.status === 0"
-                    @input="onClose(item, menu)"
                     color="green">
                     問題なし
                 </v-chip>
                 <v-chip
                     v-else-if="item.status === 1"
-                    @input="onClose(item, menu)"
                     color="red">
                     問題あり
                 </v-chip>
@@ -183,16 +181,6 @@
               item.status = 3
               this.select = this.select === 0 ? '問題なし' : '問題あり'
           }
-
-        },
-        onClose(item){
-            console.log(item)
-            if(item.status === 0 || item.status === 1){
-                item.status = 3
-                if(this.select != ''){
-                    this.select = ''
-                }
-            }
         },
         onSelect(select, item){
 
