@@ -16,6 +16,8 @@
     "@nuxtjs/axios": "^5.0.0",
     "@nuxtjs/moment": "^1.1.0",
     "acorn": "^6.0.0",
+    "aws-amplify": "^1.1.19",
+    "aws-amplify-vue": "^0.2.5",
     "cross-env": "^5.2.0",
     "express": "^4.16.3",
     "moment": "^2.23.0",
