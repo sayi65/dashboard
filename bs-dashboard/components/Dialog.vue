@@ -38,7 +38,8 @@
                  <v-btn 
                   fab 
                   dark 
-                  small 
+                  small
+                  @click="showSnackbar(item)"
                   color="error">
                   <v-icon dark>delete</v-icon>
                 </v-btn>
@@ -51,6 +52,26 @@
 
         <v-divider></v-divider>
       </v-card>
+      
+      <v-snackbar
+      v-model="snackbar"
+      >
+      ({{text}})の進捗を削除しますか？
+      <v-btn
+        dark
+        flat
+        @click="deleteItem"
+      >
+      はい
+      </v-btn>
+      <v-btn
+        dark
+        flat
+        @click="snackbar = false"
+      >
+        いいえ
+      </v-btn>
+    </v-snackbar>
     </v-dialog>
   </v-layout>
 </template>
@@ -67,6 +88,9 @@ import { mapMutations, mapState, mapActions } from 'vuex'
         Card
     },
     data: () => ({
+      snackbar: false,
+      text: '削除しますか？',
+      deleteData :{},
      items: [
         {
           status: 1,
@@ -101,7 +125,17 @@ import { mapMutations, mapState, mapActions } from 'vuex'
           if(this.items[0].tittle != moment().day(4).format('YYYY/MM/DD')){
             this.items.unshift({status: 0, tittle: moment().day(4).format('YYYY/MM/DD') , value: ''})
           }
-          
+        },
+        showSnackbar(item){
+          this.snackbar = true
+          this.text = item.tittle
+          this.deleteData = item
+        },
+        deleteItem(){
+          //TODO remove data
+          let noJohn = this.items.filter( el => el.tittle !== this.deleteData.tittle ); 
+          console.log(noJohn)
+          this.items = noJohn
         },
         showModal(isDialog){
           this.toggleModal(isDialog)
