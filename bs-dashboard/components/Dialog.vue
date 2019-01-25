@@ -34,6 +34,15 @@
               color="#26c6da"
               :key="i"
               fill-dot>
+                <v-avatar slot="icon">
+                 <v-btn 
+                  fab 
+                  dark 
+                  small 
+                  color="error">
+                  <v-icon dark>delete</v-icon>
+                </v-btn>
+              </v-avatar>
               
               <Card :item='item'/>
             </v-timeline-item>
