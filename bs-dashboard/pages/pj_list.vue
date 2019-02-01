@@ -16,7 +16,7 @@
     </v-card-title>
     <v-data-table
       :headers="headers"
-      :items="desserts"
+      :items="desserts.items"
       :search="search"
     >
     <v-progress-linear 
@@ -31,7 +31,7 @@
             <td class="text-xs-center">{{ props.item.agreement }}</td>
             <td class="text-xs-center">{{ props.item.orders }}</td>
             <td class="text-xs-center">{{ props.item.users }}</td>
-            <td class="text-xs-center">{{ props.item.pjname }}</td>
+            <td class="text-xs-center">{{ props.item.pj_name }}</td>
             <td class="text-xs-center">{{ props.item.sales }}</td>
             <td class="text-xs-center">{{ props.item.pms }}</td>
             <td class="text-xs-center">{{ props.item.pls }}</td>
@@ -45,7 +45,7 @@
         :value="true" 
         color="error" 
         icon="warning">
-        Your search for "{{ search }}" found no results.
+        "{{ search }}"の検索結果はありません。
       </v-alert>
     </v-data-table>
   </v-card>
@@ -54,6 +54,9 @@
 </template>
 
 <script>
+
+import { mapState, mapActions } from 'vuex'
+
   export default {
     name:'pj_list',
     watchQuery: [
@@ -102,108 +105,31 @@
             align: 'left',
             value: 'enddate' },
         ],
-        desserts: [
-        {
-            value: false,
-            classification: '案件',
-            agreement: '請負',
-            orders: '問題なし',
-            users: '大東実業㈱aaaa',
-            supervision: '4課',
-            sales: '向山M',
-            pms: 'Aさん',
-            pls: 'PAさん',
-            kubun: '確定',
-            amount: '100',
-            pjname: '運行管理システム保守',
-            startdate: '',
-            enddate:''
-          },
-          {
-            value: false,
-            classification: '進捗',
-            agreement: '請負',
-            orders: '問題なし',
-            users: '大東実業㈱',
-            supervision: '4課',
-            sales: '向山M',
-            pms: 'Aさん',
-            pls: 'PAさん',
-            kubun: '確定',
-            amount: '100',
-            pjname: '運行管理システム保守',
-            startdate: '',
-            enddate:''
-          },
-          {
-            value: false,
-            classification: '進捗',
-            agreement: '請負',
-            orders: '問題なし',
-            users: '大東実業㈱',
-            supervision: '4課',
-            sales: '向山M',
-            pms: 'Aさん',
-            pls: 'PAさん',
-            kubun: '確定',
-            amount: '100',
-            pjname: '運行管理システム保守',
-            startdate: '',
-            enddate:''
-          },
-          {
-            value: false,
-            classification: '進捗',
-            agreement: '請負',
-            orders: '問題なし',
-            users: '大東実業㈱',
-            supervision: '4課',
-            sales: '向山M',
-            pms: 'Aさん',
-            pls: 'PAさん',
-            kubun: '確定',
-            amount: '100',
-            pjname: '運行管理システム保守',
-            startdate: '',
-            enddate:''
-          },
-          {
-            value: false,
-            classification: '進捗',
-            agreement: '請負',
-            orders: '問題なし',
-            users: '大東実業㈱',
-            supervision: '4課',
-            sales: '向山M',
-            pms: 'Aさん',
-            pls: 'PAさん',
-            kubun: '確定',
-            amount: '100',
-            pjname: '運行管理システム保守',
-            startdate: '',
-            enddate:''
-          },
-          {
-            value: false,
-            classification: '進捗',
-            agreement: '請負',
-            orders: '問題なし',
-            users: '大東実業㈱',
-            supervision: '4課',
-            sales: '向山M',
-            pms: 'Aさん',
-            pls: 'PAさん',
-            kubun: '確定',
-            amount: '100',
-            pjname: '運行管理システム保守',
-            startdate: '',
-            enddate:''
-          }
-        ]
+        // desserts: [],
       }
     },
-    asyncData({ params, error }) {
-      return {search : params.search}
+    computed: {
+      ...mapState({
+        desserts: state => state.data.pjData
+      }),
+    },
+    mounted() {
+      try {
+        this.load();
+      } catch (e) {
+        throw e;
+      }
+    },
+    methods: {
+      ...mapActions({
+        execGetItems: 'data/findAll'
+      }),
+      load() {
+          this.execGetItems().then(res => {
+        }).catch(err => {
+          console.log(err)
+        })
+      },
     },
   }
 </script>
