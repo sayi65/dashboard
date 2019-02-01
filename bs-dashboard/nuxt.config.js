@@ -37,6 +37,7 @@ module.exports = {
   plugins: [
     '@/plugins/vuetify',
     '@/plugins/aws',
+    '@/plugins/uuid',   
   ],
 
   /*

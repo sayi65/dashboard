@@ -54,11 +54,11 @@ export default {
         list : {}
       }
   },
-  async asyncData ({app}){
-      const Texts = await API.graphql(graphqlOperation(ListTodosQuery))
-      console.log(Texts)
-      // this.list = Texts
+  // async asyncData ({app}){
+  //     const Texts = await API.graphql(graphqlOperation(ListTodosQuery))
+  //     console.log(Texts)
+  //     // this.list = Texts
 
-    }
+  //   }
 }
 </script>

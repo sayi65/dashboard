@@ -18,10 +18,13 @@
       :headers="headers"
       :items="desserts.items"
       :search="search"
+      :loading="progress"
+      class="elevation-1"
     >
     <v-progress-linear 
         slot="progress" 
-        color="blue" 
+        color="blue"
+        indeterminate
         ></v-progress-linear>
 
       <template 
@@ -56,56 +59,17 @@
 <script>
 
 import { mapState, mapActions } from 'vuex'
-
+import commonMixin from '../mixins/const_list'
   export default {
     name:'pj_list',
     watchQuery: [
-            'search'
+      'search'
     ],
+    mixins: [commonMixin],
     data () {
       return {
         search: '',
-        headers: [
-          {
-            text: '区分',
-            align: 'left',
-            value: 'classification'
-          },
-          { text: '契約',
-            align: 'left',
-            value: 'agreement' },
-          { text: '確定',
-            align: 'left',
-            value: 'orders' },
-          { text: 'ユーザ', 
-            align: 'left',
-            value: 'users' },
-          { text: '業務名/内容', 
-            align: 'left',
-            value: 'pjname' },
-          { text: '営業', 
-            align: 'left',
-            value: 'sales' },
-          { text: 'PM',
-            align: 'left',
-            value: 'pms' },
-          { text: 'PL', 
-            align: 'left',
-            value: 'pls' },
-          { text: '金額区分', 
-            align: 'left',
-            value: 'kubun' },
-          { text: '金額', 
-            align: 'left',
-            value: 'amount' },
-          { text: '開始時期', 
-            align: 'left',
-            value: 'startdate' },
-          { text: '終了時期', 
-            align: 'left',
-            value: 'enddate' },
-        ],
-        // desserts: [],
+        progress: false,
       }
     },
     computed: {
@@ -119,16 +83,20 @@ import { mapState, mapActions } from 'vuex'
       } catch (e) {
         throw e;
       }
+      // this.progress = false
     },
     methods: {
       ...mapActions({
         execGetItems: 'data/findAll'
       }),
       load() {
-          this.execGetItems().then(res => {
-        }).catch(err => {
-          console.log(err)
-        })
+        this.progress = true
+        console.log(this.progress)
+        // this.execGetItems().then(res => {
+        //   this.progress = false
+        // }).catch(err => {
+        //   console.log(err)
+        // })
       },
     },
   }

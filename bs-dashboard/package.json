@@ -23,6 +23,7 @@
     "moment": "^2.23.0",
     "nuxt": "^2.0.0",
     "uuid": "^3.3.2",
+    "vue-uuid": "^1.1.1",
     "vuetify": "^1.2.4"
   },
   "devDependencies": {

@@ -35,6 +35,8 @@
                     :items="classification"
                     label="区分"
                     box
+                    outline
+                    v-model="createBsProject.classification"
                     color="white"
                     item-text="name"
                     placeholder="選択してください。"
@@ -44,6 +46,8 @@
                     :rules="[() => !!agreement || '必須項目です。']"
                     :items="agreement"
                     box
+                    outline
+                    v-model="createBsProject.agreement"
                     color="white"
                     label="請負"
                     placeholder="選択してください。"
@@ -53,6 +57,8 @@
                     :rules="[() => !!orders || '必須項目です。']"
                     :items="orders"
                     box
+                    outline
+                    v-model="createBsProject.orders"
                     color="white"
                     label="状況"
                     placeholder="選択してください。"
@@ -62,6 +68,8 @@
                     :rules="[() => !!pb_classification || '必須項目です。']"
                     :items="pb_classification"
                     box
+                    outline
+                    v-model="createBsProject.pb_classification"
                     color="white"
                     label="問題区分"
                     placeholder="選択してください。"
@@ -90,49 +98,67 @@
           style="height:360px"
           class="mb-5">
           <v-card-text>
-            <v-autocomplete
+            <v-text-field
                 ref="ユーザ"
-                :rules="[() => !!users || '必須項目です。']"
-                :items="users"
+                :rules="[
+                () => !!createBsProject.users || '必須項目です。',
+                () => !!createBsProject.users && createBsProject.users.length <= 150 || '業務名/内容を150文字以内に入力してください。'
+                ]"
+                counter="150"
                 item-text="name"
+                v-model="createBsProject.users"
                 label="ユーザ"
-                placeholder="選択してください。"
-                required></v-autocomplete>
-            <v-autocomplete
+                placeholder="入力してください。"
+                single-line
+                outline
+                required></v-text-field>
+            <v-text-field
                 ref="address"
                 :rules="[
-                () => !!pjname || '必須項目です。',
-                () => !!pjname && pjname.length <= 250 || '業務名/内容を250文字以内に入力してください。'
+                () => !!createBsProject.pj_name || '必須項目です。',
+                () => !!createBsProject.pj_name && createBsProject.pj_name.length <= 150 || '業務名/内容を150文字以内に入力してください。'
                 ]"
-                :items="pjname"
+                v-model="createBsProject.pj_name"
                 item-value="name"
                 item-text="name"
                 label="業務名/内容"
                 placeholder="業務名/内容を入力してください。"
-                counter="250"
-                required></v-autocomplete>
+                counter="150"
+                single-line
+                outline
+                required></v-text-field>
             <v-layout 
               align-center 
               justify-center 
               row 
               fill-height 
               wrap>
+              <v-flex xs12 sm6>
                 <v-select
                     ref="主菅"
                     :rules="[() => !!supervision || '必須項目です。']"
                     :items="supervision"
                     label="主菅"
                     color="white"
+                    single-line
+                    outline
+                    v-model="createBsProject.supervision"
                     placeholder="選択してください。"
                     required></v-select>
-                <v-autocomplete
+              </v-flex>
+              <v-flex xs12 sm6>
+                <v-text-field
                     ref="営業"
                     :rules="[() => !!sales || '必須項目です。']"
-                    :items="sales"
                     label="営業"
                     item-text="name"
-                    placeholder="選択してください。"
-                    required></v-autocomplete>
+                    v-model="createBsProject.sales"
+                    placeholder="入力してください。"
+                    single-line
+                    outline
+                    counter="50"
+                    required></v-text-field>
+              </v-flex>
             </v-layout>
             <v-layout 
               align-center 
@@ -140,23 +166,33 @@
               row 
               fill-height 
               wrap>
-                <v-autocomplete
+              <v-flex xs12 sm6>
+                <v-text-field
                     ref="PM"
-                    :rules="[() => !!pms || '必須項目です。']"
-                    :items="pms"
+                    :rules="[() => !!createBsProject.pms || '必須項目です。']"
                     item-text="name"
                     label="PM"
-                    placeholder="選択してください。"
-                    required></v-autocomplete>
-                <v-autocomplete
+                    v-model="createBsProject.pms"
+                    placeholder="入力してください。"
+                    single-line
+                    outline
+                    counter="50"
+                    required></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6>
+                <v-text-field
                     ref="PL"
-                    :rules="[() => !!pls || '必須項目です。']"
-                    :items="pls"
+                    :rules="[() => !!createBsProject.pls || '必須項目です。']"
                     item-text="name"
                     item-value="name"
+                    v-model="createBsProject.pls"
                     label="PL"
-                    placeholder="選択してください。"
-                    required></v-autocomplete>
+                    placeholder="入力してください。"
+                    single-line
+                    outline
+                    counter="50"
+                    required></v-text-field>
+              </v-flex>
             </v-layout>
             </v-card-text>
         </v-card>
@@ -199,13 +235,15 @@
                 :rules="[() => !!kubun || '必須項目です。']"
                 :items="kubun"
                 label="金額区分"
+                v-model="createBsProject.kubun"
                 placeholder="選択してください。"
                 required></v-select>
             <v-text-field
                 ref="amount"
-                :rules="[() => !!amount || '必須項目です。']"
-                v-model="amount"
+                v-model="createBsProject.amount"
                 label="金額"
+                prefix="￥"
+                type="Number"
                 placeholder="金額を入力してください。"
                 required></v-text-field>  
           </v-card-text>
@@ -227,7 +265,8 @@
           right
           absolute
           fab
-          @click="e1 = 1">
+          type="submit"
+          @click="save">
           保存
         </v-btn>
       </v-stepper-content>
@@ -236,51 +275,40 @@
 </template>
 
 <script>
-
+import commonMixin from '../mixins/const_add'
 import 'moment/locale/ja'
 import moment from 'moment'
+import { uuid } from 'vue-uuid';
 
   export default {
-    data () {
+    mixins: [commonMixin],
+    data () { 
       return {
         e1: 0,
-        classification: [ '案件','進捗','その他'],
-        agreement: [ '請負','準委任','派遣','保守', '社内', '無償', 'その他'],
-        orders: ['問題なし','問題あり','要注意','終了', '受注', 
-        '失注','確度A','確度B','確度C','確度L','確度低','未確認','その他'
-        ],
-        pb_classification: ['問題なし','顧客クレーム','進捗遅れ','納期遅れ', '低品質', 
-        '出荷後不具合','要員不足','計画外作業','マイナスProj','金額不足','交渉難航','工数増加','その他'
-        ],
-        users:[
-            {name:'大東実業㈱', id:1},
-            {name:'CASIO', id:2},
-        ],
-        pjname:[
-            {name:'運行管理システム保守', id:1},
-            {name:'ClassPad　.Net', id:2},
-        ],
-        supervision:['1課','2課','3課','4課'],
-        sales:[
-            {name: '向山M', id:1},
-            {name: '宮崎M', id:2}
-        ],
-        pms:[
-            {name:'Aさん', id:1},
-            {name:'Bさん', id:2},
-        ],
-        pls:[
-            {name:'PAさん', id:1},
-            {name:'PBさん', id:2},
-        ],
-        kubun:['確定',''],
-        amount:'',
-
-        startdate: new Date().toISOString().substr(0, 10),
-        enddate: new Date().toISOString().substr(0, 10),
-        menu1: false,
-        menu2: false
+        createBsProject: {
+            agreement: '',
+            amount: 0,
+            classification: '',
+            enddate: '',
+            kubun: '',
+            orders: '',
+            pb_classification: '',
+            pj_name: '',
+            pls: '',
+            pms: '',
+            sales: '',
+            startdate: '',
+            supervision: '',
+            users: '',
+            uuid: uuid.v4()
+        }
       }
-    }
+    },
+    methods: {
+        save(){
+            console.log(this.createBsProject)
+            console.log(uuid.v4())
+        }
+    },
   }
 </script>

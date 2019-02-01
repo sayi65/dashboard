@@ -1,30 +1,10 @@
 import { API, graphqlOperation } from 'aws-amplify'
-
-const ListBsProjects = `query listBsProjects {
-  listBsProjects {
-    items {
-        agreement
-        amount
-        classification
-        enddate
-        kubun
-        orders
-        pb_classification
-        pj_name
-        pls
-        pms
-        sales
-        startdate
-        supervision
-        users
-        uuid
-    }
-  }
-}`;
+import ListBsProjects from '../api/listBsProjects'
 
 
 export const state = () => ({
-    pjData : []
+    pjData : [],
+    pjItem : {}
 })
 
 export const mutations = {
@@ -43,5 +23,5 @@ export const actions = {
     async findAll ({commit}){
         let data = await API.graphql(graphqlOperation(ListBsProjects))
         commit('getList', data.data.listBsProjects )
-      }
+    }
   }
