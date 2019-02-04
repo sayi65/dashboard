@@ -1,5 +1,6 @@
 import { API, graphqlOperation } from 'aws-amplify'
 import ListBsProjects from '../api/listBsProjects'
+import CreateBsProjects from '../api/createBsProjects'
 
 
 export const state = () => ({
@@ -23,5 +24,8 @@ export const actions = {
     async findAll ({commit}){
         let data = await API.graphql(graphqlOperation(ListBsProjects))
         commit('getList', data.data.listBsProjects )
+    },
+    async saveData ({commit}, bsData){
+        const response = await API.graphql(graphqlOperation(CreateBsProjects, {createbsprojectinput :bsData}))
     }
   }

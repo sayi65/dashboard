@@ -10,7 +10,7 @@ export default {
             '出荷後不具合','要員不足','計画外作業','マイナスProj','金額不足','交渉難航','工数増加','その他'
             ],
             supervision:['1課','2課','3課','4課'],
-            kubun:['確定',''],
+            kubun:['確定','L'],
             amount:'',
             startdate: new Date().toISOString().substr(0, 10),
             enddate: new Date().toISOString().substr(0, 10),

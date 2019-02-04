@@ -91,12 +91,11 @@ import commonMixin from '../mixins/const_list'
       }),
       load() {
         this.progress = true
-        console.log(this.progress)
-        // this.execGetItems().then(res => {
-        //   this.progress = false
-        // }).catch(err => {
-        //   console.log(err)
-        // })
+        this.execGetItems().then(res => {
+          this.progress = false
+        }).catch(err => {
+          console.log(err)
+        })
       },
     },
   }

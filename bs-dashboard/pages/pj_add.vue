@@ -20,7 +20,7 @@
         step="3">金額</v-stepper-step>
     </v-stepper-header>
 
-    <v-stepper-items>
+    <v-stepper-items v-if="!loading">
       <v-stepper-content 
         step="1" 
         style="height:500px">
@@ -108,8 +108,6 @@
                 item-text="name"
                 v-model="createBsProject.users"
                 label="ユーザ"
-                placeholder="入力してください。"
-                single-line
                 outline
                 required></v-text-field>
             <v-text-field
@@ -122,9 +120,7 @@
                 item-value="name"
                 item-text="name"
                 label="業務名/内容"
-                placeholder="業務名/内容を入力してください。"
                 counter="150"
-                single-line
                 outline
                 required></v-text-field>
             <v-layout 
@@ -136,11 +132,11 @@
               <v-flex xs12 sm6>
                 <v-select
                     ref="主菅"
-                    :rules="[() => !!supervision || '必須項目です。']"
+                    :rules="[() => !!createBsProject.supervision || '必須項目です。']"
                     :items="supervision"
                     label="主菅"
                     color="white"
-                    single-line
+                    box
                     outline
                     v-model="createBsProject.supervision"
                     placeholder="選択してください。"
@@ -149,12 +145,10 @@
               <v-flex xs12 sm6>
                 <v-text-field
                     ref="営業"
-                    :rules="[() => !!sales || '必須項目です。']"
+                    :rules="[() => !!createBsProject.sales || '必須項目です。']"
                     label="営業"
                     item-text="name"
                     v-model="createBsProject.sales"
-                    placeholder="入力してください。"
-                    single-line
                     outline
                     counter="50"
                     required></v-text-field>
@@ -173,8 +167,6 @@
                     item-text="name"
                     label="PM"
                     v-model="createBsProject.pms"
-                    placeholder="入力してください。"
-                    single-line
                     outline
                     counter="50"
                     required></v-text-field>
@@ -187,8 +179,6 @@
                     item-value="name"
                     v-model="createBsProject.pls"
                     label="PL"
-                    placeholder="入力してください。"
-                    single-line
                     outline
                     counter="50"
                     required></v-text-field>
@@ -230,12 +220,82 @@
           style="height:360px"
           class="mb-5">
           <v-card-text>
+
+    <v-layout row wrap>
+    <v-flex xs11 sm5>
+      <v-menu
+        ref="menu"
+        :close-on-content-click="false"
+        v-model="startmenu"
+        :nudge-right="40"
+        lazy
+        transition="scale-transition"
+        offset-y
+        full-width
+        max-width="290px"
+        min-width="290px"
+      >
+        <v-text-field
+          slot="activator"
+          v-model="createBsProject.startdate"
+          clearable
+          label="開始時期"
+          prepend-icon="event"
+          readonly
+        ></v-text-field>
+        <v-date-picker
+          v-model="createBsProject.startdate"
+          type="month"
+          no-title
+          locale="jp"
+          @input="startmenu = false"
+        >
+        </v-date-picker>
+      </v-menu>
+    </v-flex>
+    <v-spacer></v-spacer>
+    <v-flex xs11 sm5>
+        <v-menu
+            ref="menu"
+            :close-on-content-click="false"
+            v-model="endmenu"
+            :nudge-right="40"
+            lazy
+            transition="scale-transition"
+            offset-y
+            full-width
+            max-width="290px"
+            min-width="290px">
+        <v-text-field
+          slot="activator"
+          v-model="createBsProject.enddate"
+          clearable
+          label="終了時期"
+          prepend-icon="event"
+          readonly
+        ></v-text-field>
+        <v-date-picker 
+            v-model="createBsProject.enddate" 
+            type="month" 
+            no-title
+            locale="jp"
+            @input="endmenu = false">
+        </v-date-picker>
+        </v-menu>
+    </v-flex>
+    </v-layout>
+
+
+
             <v-select
                 ref="金額区分"
                 :rules="[() => !!kubun || '必須項目です。']"
                 :items="kubun"
-                label="金額区分"
+                box
+                outline
                 v-model="createBsProject.kubun"
+                color="white"
+                label="金額区分"
                 placeholder="選択してください。"
                 required></v-select>
             <v-text-field
@@ -243,8 +303,8 @@
                 v-model="createBsProject.amount"
                 label="金額"
                 prefix="￥"
+                outline
                 type="Number"
-                placeholder="金額を入力してください。"
                 required></v-text-field>  
           </v-card-text>
         </v-card>
@@ -271,6 +331,13 @@
         </v-btn>
       </v-stepper-content>
     </v-stepper-items>
+
+    <div class="text-xs-center" v-if="loading">
+        <v-progress-circular
+            :size="50"
+            color="blue"
+            indeterminate></v-progress-circular>
+    </div>
   </v-stepper>
 </template>
 
@@ -279,17 +346,21 @@ import commonMixin from '../mixins/const_add'
 import 'moment/locale/ja'
 import moment from 'moment'
 import { uuid } from 'vue-uuid';
+import { mapActions } from 'vuex'
 
   export default {
     mixins: [commonMixin],
     data () { 
       return {
         e1: 0,
+        loading: false,
+        startmenu: false,
+        endmenu: false,
         createBsProject: {
             agreement: '',
             amount: 0,
             classification: '',
-            enddate: '',
+            enddate: moment().toISOString().substr(0, 7),
             kubun: '',
             orders: '',
             pb_classification: '',
@@ -297,7 +368,7 @@ import { uuid } from 'vue-uuid';
             pls: '',
             pms: '',
             sales: '',
-            startdate: '',
+            startdate: moment().toISOString().substr(0, 7),
             supervision: '',
             users: '',
             uuid: uuid.v4()
@@ -305,9 +376,21 @@ import { uuid } from 'vue-uuid';
       }
     },
     methods: {
+        ...mapActions({
+            execSaveDatas: 'data/saveData'
+        }),
         save(){
+            this.loading = true
+            // this.createBsProject.startdate = moment().toISOString()
+            // this.createBsProject.enddate = moment().toISOString()
             console.log(this.createBsProject)
-            console.log(uuid.v4())
+            // this.execSaveDatas(this.createBsProject).then(
+            //     res => {
+            //         console.log(res)
+            //         this.loading = false
+            //     }).catch(err => {
+            //         console.log(err)
+            //     })
         }
     },
   }
