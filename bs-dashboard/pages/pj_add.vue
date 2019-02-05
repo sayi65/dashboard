@@ -108,8 +108,15 @@
                 item-text="name"
                 v-model="createBsProject.users"
                 label="ユーザ"
+                clearable
+                append-icon="playlist_add"
+                @click:append="toggleMarker"
                 outline
-                required></v-text-field>
+                required>
+
+                <Menu slot="append" :iconloading="iconloading" />
+                 
+            </v-text-field>
             <v-text-field
                 ref="address"
                 :rules="[
@@ -285,29 +292,27 @@
     </v-flex>
     </v-layout>
 
-
-
-            <v-select
-                ref="金額区分"
-                :rules="[() => !!kubun || '必須項目です。']"
-                :items="kubun"
-                box
-                outline
-                v-model="createBsProject.kubun"
-                color="white"
-                label="金額区分"
-                placeholder="選択してください。"
-                required></v-select>
-            <v-text-field
-                ref="amount"
-                v-model="createBsProject.amount"
-                label="金額"
-                prefix="￥"
-                outline
-                type="Number"
-                required></v-text-field>  
-          </v-card-text>
-        </v-card>
+    <v-select
+      ref="金額区分"
+      :rules="[() => !!kubun || '必須項目です。']"
+      :items="kubun"
+      box
+      outline
+      v-model="createBsProject.kubun"
+      color="white"
+      label="金額区分"
+      placeholder="選択してください。"
+      required></v-select>
+    <v-text-field
+      ref="amount"
+      v-model="createBsProject.amount"
+      label="金額"
+      prefix="￥"
+      outline
+      type="Number"
+      required></v-text-field>  
+  </v-card-text>
+</v-card>
         <v-fab-transition>
             <v-btn
                 color="pink"
@@ -342,6 +347,7 @@
 </template>
 
 <script>
+import Menu from '~/components/MenuList.vue'
 import commonMixin from '../mixins/const_add'
 import 'moment/locale/ja'
 import moment from 'moment'
@@ -350,12 +356,16 @@ import { mapActions } from 'vuex'
 
   export default {
     mixins: [commonMixin],
+    components: {
+        Menu
+    },
     data () { 
       return {
         e1: 0,
         loading: false,
         startmenu: false,
         endmenu: false,
+        iconloading: false,
         createBsProject: {
             agreement: '',
             amount: 0,
@@ -379,6 +389,9 @@ import { mapActions } from 'vuex'
         ...mapActions({
             execSaveDatas: 'data/saveData'
         }),
+        toggleMarker () {
+          this.iconloading = true
+        },
         save(){
             this.loading = true
             // this.createBsProject.startdate = moment().toISOString()

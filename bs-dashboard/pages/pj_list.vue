@@ -83,7 +83,6 @@ import commonMixin from '../mixins/const_list'
       } catch (e) {
         throw e;
       }
-      // this.progress = false
     },
     methods: {
       ...mapActions({
