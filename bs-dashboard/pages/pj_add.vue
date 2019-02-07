@@ -99,22 +99,18 @@
           class="mb-5">
           <v-card-text>
             <v-text-field
-                ref="ユーザ"
+                ref="users"
                 :rules="[
                 () => !!createBsProject.users || '必須項目です。',
                 () => !!createBsProject.users && createBsProject.users.length <= 150 || '業務名/内容を150文字以内に入力してください。'
                 ]"
                 counter="150"
-                item-text="name"
                 v-model="createBsProject.users"
                 label="ユーザ"
                 clearable
-                append-icon="playlist_add"
-                @click:append="toggleMarker"
                 outline
                 required>
-
-                <Menu slot="append" :iconloading="iconloading" />
+                <MenuList v-on:childToParent="onChildClick" slot="prepend" :menuData='menuData' />
                  
             </v-text-field>
             <v-text-field
@@ -129,7 +125,10 @@
                 label="業務名/内容"
                 counter="150"
                 outline
-                required></v-text-field>
+                required>
+                
+                <MenuList v-on:childToParent="onChildClick" slot="prepend" :menuData='menuData' />
+                </v-text-field>
             <v-layout 
               align-center 
               justify-center 
@@ -347,17 +346,17 @@
 </template>
 
 <script>
-import Menu from '~/components/MenuList.vue'
+import MenuList from '~/components/MenuList.vue'
 import commonMixin from '../mixins/const_add'
 import 'moment/locale/ja'
 import moment from 'moment'
 import { uuid } from 'vue-uuid';
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
   export default {
     mixins: [commonMixin],
     components: {
-        Menu
+        MenuList
     },
     data () { 
       return {
@@ -365,7 +364,6 @@ import { mapActions } from 'vuex'
         loading: false,
         startmenu: false,
         endmenu: false,
-        iconloading: false,
         createBsProject: {
             agreement: '',
             amount: 0,
@@ -385,18 +383,34 @@ import { mapActions } from 'vuex'
         }
       }
     },
+    computed: {
+      ...mapGetters({
+        menuData: 'data/getMenus'
+      }),
+    },
+    mounted() {
+      this.loadData();
+      console.log(this.menuData)
+    },
     methods: {
         ...mapActions({
+            execMenuList: 'data/findMenuList',
             execSaveDatas: 'data/saveData'
         }),
-        toggleMarker () {
-          this.iconloading = true
+        loadData(){
+            this.execMenuList().then(res => {
+
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+        onChildClick(value){
+          this.createBsProject.users = value
         },
         save(){
+           //TODO 保存処理
             this.loading = true
-            // this.createBsProject.startdate = moment().toISOString()
-            // this.createBsProject.enddate = moment().toISOString()
-            console.log(this.createBsProject)
+            console.log(this.$ref.users)
             // this.execSaveDatas(this.createBsProject).then(
             //     res => {
             //         console.log(res)

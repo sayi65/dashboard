@@ -121,7 +121,6 @@ import { mapMutations, mapState, mapActions } from 'vuex'
     },
     methods:{
         addCard(){
-          console.log(this.items[0])
           if(this.items[0].tittle != moment().day(4).format('YYYY/MM/DD')){
             this.items.unshift({status: 0, tittle: moment().day(4).format('YYYY/MM/DD') , value: ''})
           }
