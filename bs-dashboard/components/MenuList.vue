@@ -27,13 +27,14 @@ export default {
         menuData:{
             type: Array,
             default: () => ({})
-        }
+        },
     },
     data: () => ({
         loading:false,
     }),
     methods: {
         setValue(value){
+            console.log(this.menuData)
             this.$emit('childToParent', value)
         }
     }

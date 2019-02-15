@@ -6,7 +6,7 @@ import ListUsers from '../api/listUsers'
 
 export const state = () => ({
     pjData : [],
-    users : []
+    menuUsers : []
 })
 
 export const mutations = {
@@ -14,21 +14,49 @@ export const mutations = {
     getList(state, pjList) {
         state.pjData = pjList
     },
-    getUsers(state, users){
-        state.users = users
+    getMenuData(state, users){
+        state.menuUsers = users
     }
 }
 
 export const getters = {
     // ここでは hogeFromStore の状態（値）を変更する処理を定義
     pjData: state => state.pjData,
-    getMenus: state => {
+    getUserData: state => {
         let result = [];
-        state.users.filter((el) => {
+        state.menuUsers.filter((el) => {
             if(!result.includes(el.users)) result.push(el.users)  
         });
         return result
-    }
+    },
+    getPjData: state => {
+        let pjresult = [];
+        state.menuUsers.filter((el) => {
+            if(!pjresult.includes(el.pj_name)) pjresult.push(el.pj_name)  
+        });
+        return pjresult
+    },
+    getSalesData: state => {
+        let salesResult = [];
+        state.menuUsers.filter((el) => {
+            if(!salesResult.includes(el.sales)) salesResult.push(el.sales)  
+        });
+        return salesResult
+    },
+    getPMData: state => {
+        let pmResult = [];
+        state.menuUsers.filter((el) => {
+            if(!pmResult.includes(el.pms)) pmResult.push(el.pms)  
+        });
+        return pmResult
+    },
+    getPLData: state => {
+        let plResult = [];
+        state.menuUsers.filter((el) => {
+            if(!plResult.includes(el.pls)) plResult.push(el.pls)  
+        });
+        return plResult
+    }        
 }
 
 export const actions = {
@@ -41,7 +69,7 @@ export const actions = {
     },
     async findMenuList({commit}){
         let users = await API.graphql(graphqlOperation(ListUsers))
-        commit('getUsers', users.data.listBsProjects.items )
+        commit('getMenuData', users.data.listBsProjects.items )
 
     }
   }

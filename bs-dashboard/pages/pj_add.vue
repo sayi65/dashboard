@@ -20,6 +20,8 @@
         step="3">金額</v-stepper-step>
     </v-stepper-header>
 
+
+
     <v-stepper-items v-if="!loading">
       <v-stepper-content 
         step="1" 
@@ -110,7 +112,7 @@
                 clearable
                 outline
                 required>
-                <MenuList v-on:childToParent="onChildClick" slot="prepend" :menuData='menuData' />
+                <MenuList v-on:childToParent="onChildClick" slot="append" :menuData='menuUsersData' />
                  
             </v-text-field>
             <v-text-field
@@ -120,14 +122,13 @@
                 () => !!createBsProject.pj_name && createBsProject.pj_name.length <= 150 || '業務名/内容を150文字以内に入力してください。'
                 ]"
                 v-model="createBsProject.pj_name"
-                item-value="name"
-                item-text="name"
                 label="業務名/内容"
                 counter="150"
+                clearable
                 outline
                 required>
                 
-                <MenuList v-on:childToParent="onChildClick" slot="prepend" :menuData='menuData' />
+                <MenuList v-on:childToParent="onPjClick" slot="append" :menuData='menuPJData' />
                 </v-text-field>
             <v-layout 
               align-center 
@@ -156,8 +157,12 @@
                     item-text="name"
                     v-model="createBsProject.sales"
                     outline
+                    clearable
                     counter="50"
-                    required></v-text-field>
+                    required>
+                    
+                    <MenuList v-on:childToParent="onSalesClick" slot="append" :menuData='menuSalesData' />
+                    </v-text-field>
               </v-flex>
             </v-layout>
             <v-layout 
@@ -170,24 +175,29 @@
                 <v-text-field
                     ref="PM"
                     :rules="[() => !!createBsProject.pms || '必須項目です。']"
-                    item-text="name"
                     label="PM"
                     v-model="createBsProject.pms"
                     outline
+                    clearable
                     counter="50"
-                    required></v-text-field>
+                    required>
+                    
+                    <MenuList v-on:childToParent="onPMClick" slot="append" :menuData='menuPMData' />
+                    </v-text-field>
               </v-flex>
               <v-flex xs12 sm6>
                 <v-text-field
                     ref="PL"
                     :rules="[() => !!createBsProject.pls || '必須項目です。']"
-                    item-text="name"
-                    item-value="name"
                     v-model="createBsProject.pls"
                     label="PL"
                     outline
+                    clearable
                     counter="50"
-                    required></v-text-field>
+                    required>
+                    
+                    <MenuList v-on:childToParent="onPLClick" slot="append" :menuData='menuPLData' />
+                    </v-text-field>
               </v-flex>
             </v-layout>
             </v-card-text>
@@ -308,7 +318,7 @@
       label="金額"
       prefix="￥"
       outline
-      type="Number"
+      type="number"
       required></v-text-field>  
   </v-card-text>
 </v-card>
@@ -385,12 +395,15 @@ import { mapGetters, mapActions } from 'vuex'
     },
     computed: {
       ...mapGetters({
-        menuData: 'data/getMenus'
+        menuUsersData: 'data/getUserData',
+        menuPJData: 'data/getPjData',
+        menuSalesData: 'data/getSalesData',
+        menuPMData: 'data/getPMData',
+        menuPLData: 'data/getPLData'
       }),
     },
     mounted() {
       this.loadData();
-      console.log(this.menuData)
     },
     methods: {
         ...mapActions({
@@ -404,20 +417,35 @@ import { mapGetters, mapActions } from 'vuex'
                 console.log(err)
             })
         },
-        onChildClick(value){
-          this.createBsProject.users = value
+        onChildClick(users){
+          this.createBsProject.users = users
+        },
+        onPjClick(value){
+          this.createBsProject.pj_name = value
+        },
+        onSalesClick(value){
+          this.createBsProject.sales = value
+        },
+        onPMClick(value){
+          this.createBsProject.pms = value
+        },
+        onPLClick(value){
+          this.createBsProject.pls = value
         },
         save(){
            //TODO 保存処理
             this.loading = true
-            console.log(this.$ref.users)
-            // this.execSaveDatas(this.createBsProject).then(
-            //     res => {
-            //         console.log(res)
-            //         this.loading = false
-            //     }).catch(err => {
-            //         console.log(err)
-            //     })
+
+            this.execSaveDatas(this.createBsProject).then(
+                res => {
+                    
+                    this.loading = false
+                    console.log(this.createBsProject)
+                    this.e1 = 1
+                    
+                }).catch(err => {
+                    console.log(err)
+                })
         }
     },
   }
