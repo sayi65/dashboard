@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
-export default gql`query listBsProjects {
-    listBsProjects {
+export default gql`query listProjects {
+  listProjects {
       items {
           agreement
           amount
@@ -17,7 +17,7 @@ export default gql`query listBsProjects {
           startdate
           supervision
           users
-          uuid
+          projectId
       }
     }
   }`;

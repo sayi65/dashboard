@@ -62,14 +62,14 @@ export const getters = {
 export const actions = {
     async findAll ({commit}){
         let data = await API.graphql(graphqlOperation(ListBsProjects))
-        commit('getList', data.data.listBsProjects )
+        commit('getList', data.data.listProjects )
     },
     async saveData ({commit}, bsData){
-        const response = await API.graphql(graphqlOperation(CreateBsProjects, {createbsprojectinput :bsData}))
+        const response = await API.graphql(graphqlOperation(CreateBsProjects, {createprojectinput :bsData}))
     },
     async findMenuList({commit}){
         let users = await API.graphql(graphqlOperation(ListUsers))
-        commit('getMenuData', users.data.listBsProjects.items )
+        commit('getMenuData', users.data.listProjects.items )
 
     }
   }

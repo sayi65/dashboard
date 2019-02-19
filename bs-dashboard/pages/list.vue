@@ -14,14 +14,15 @@
             dark
             slider-color="yellow">
             <v-tab
-              v-for="n in 4"
+              v-for="n in supervisions"
               :key="n"
+              v-model="tab"
               ripple>
-              {{ n }} 課
+              {{ n }}
             </v-tab>
 
-              <v-tab-item
-                v-for="n in 4"
+              <v-tab-item 
+                v-for="n in supervisions"
                 :key="n">
                 <v-card flat>
                   <v-card-title>
@@ -105,6 +106,8 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
         dialog: false,
         active: null,
         search: '',
+        tab: null,
+        supervisions: ['1課','2課','3課','4課'],
         headers: [
           { text: 'ユーザ', value: 'users' },
           { text: '業務名/内容', value: 'pjname' },
@@ -133,7 +136,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
             pls: 'PAさん',
             kubun: '確定',
             amount: '100',
-            pjname: '運行管理システム保守',
+            pj_name: '運行管理システム保守',
             startdate: '',
             enddate:''
           },
@@ -226,7 +229,6 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
         },
         stop(e,isDialog){
           e.preventDefault()
-          console.log(1111)
           this.toggleModal(isDialog = false)
           
         },

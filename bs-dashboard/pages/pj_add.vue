@@ -389,7 +389,7 @@ import { mapGetters, mapActions } from 'vuex'
             startdate: moment().toISOString().substr(0, 7),
             supervision: '',
             users: '',
-            uuid: uuid.v4()
+            projectId: uuid.v4()
         }
       }
     },
@@ -435,25 +435,24 @@ import { mapGetters, mapActions } from 'vuex'
         save(){
            //TODO 保存処理
             this.loading = true
-
             this.execSaveDatas(this.createBsProject).then(
                 res => {
                     
                     this.loading = false
-                    this.createBsProject.classification = ''
-                    this.createBsProject.agreement = ''
-                    this.createBsProject.orders= ''
-                    this.createBsProject.pb_classification = ''
-                    this.createBsProject.users = ''
-                    this.createBsProject.pj_name = ''
-                    this.createBsProject.supervision = ''
-                    this.createBsProject.sales= ''
-                    this.createBsProject.pms = ''
-                    this.createBsProject.pls = ''
-                    this.createBsProject.startdate = moment().toISOString().substr(0, 7)
-                    this.createBsProject.enddate =  moment().toISOString().substr(0, 7)
-                    this.createBsProject.kubun = ''
-                    this.createBsProject.amount = 0
+                    // this.createBsProject.classification = ''
+                    // this.createBsProject.agreement = ''
+                    // this.createBsProject.orders= ''
+                    // this.createBsProject.pb_classification = ''
+                    // this.createBsProject.users = ''
+                    // this.createBsProject.pj_name = ''
+                    // this.createBsProject.supervision = ''
+                    // this.createBsProject.sales= ''
+                    // this.createBsProject.pms = ''
+                    // this.createBsProject.pls = ''
+                    // this.createBsProject.startdate = moment().toISOString().substr(0, 7)
+                    // this.createBsProject.enddate =  moment().toISOString().substr(0, 7)
+                    // this.createBsProject.kubun = ''
+                    // this.createBsProject.amount = 0
                     this.e1 = 1
                     
                 }).catch(err => {
