@@ -78,11 +78,7 @@ import commonMixin from '../mixins/const_list'
       }),
     },
     mounted() {
-      try {
-        this.load();
-      } catch (e) {
-        throw e;
-      }
+      this.load();
     },
     methods: {
       ...mapActions({

@@ -37,10 +37,12 @@
                   </v-card-title>
 
                   <v-expansion-panel 
-                    popout 
+                    popout
+                    v-model="panel"
                     expand>
                     <v-expansion-panel-content
                       v-for="(date,i) in dates"
+                      @click="test(i)"
                       :key="i">
 
                       <div slot="header" >
@@ -49,7 +51,7 @@
 
                       <v-data-table
                       :headers="headers"
-                      :loading="true"
+                      :loading="progress"
                       :items="desserts"
                       :search="search"
                       class="elevation-1">
@@ -63,18 +65,18 @@
                           slot="items" 
                           slot-scope="props">
                           <tr @click="showModal(props.item, openDialog = true)">
-                            <td class="text-xs-center">{{ props.item.users }}</td>
-                            <td class="text-xs-center">
+                            <td class="text-xs-left">{{ props.item.users }}</td>
+                            <td class="text-xs-left">
                               <nuxt-link
                                 @click.native="stop"
-                                :to="{name: 'pj_list' ,  params: { search: props.item.pjname} }">
-                                {{ props.item.pjname }}
+                                :to="{name: 'pj_list' ,  params: { search: props.item.pj_name} }">
+                                {{ props.item.pj_name }}
                               </nuxt-link>
                             </td>
-                            <td class="text-xs-center">{{ props.item.pms }}</td>
-                            <td class="text-xs-center">{{ props.item.pls }}</td>
-                            <td class="text-xs-center">{{ props.item.startdate }}</td>
-                            <td class="text-xs-center">{{ props.item.enddate }}</td>
+                            <td class="text-xs-left">{{ props.item.pms }}</td>
+                            <td class="text-xs-left">{{ props.item.pls }}</td>
+                            <td class="text-xs-left">{{ props.item.startdate }}</td>
+                            <td class="text-xs-left">{{ props.item.enddate }}</td>
                           </tr>
                         </template>
                       </v-data-table>      
@@ -92,7 +94,7 @@
 <script>
 import Dialog from '~/components/Dialog.vue'
 
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -107,6 +109,8 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
         active: null,
         search: '',
         tab: null,
+        progress: false,
+        panel:[],
         supervisions: ['1課','2課','3課','4課'],
         headers: [
           { text: 'ユーザ', value: 'users' },
@@ -123,107 +127,28 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
           '2018-10',
           '2018-09'
         ],
-        desserts: [
-          {
-            value: false,
-            classification: '案件',
-            agreement: '請負',
-            orders: '問題なし',
-            users: '大東実業㈱',
-            supervision: '4課',
-            sales: '向山M',
-            pms: 'Aさん',
-            pls: 'PAさん',
-            kubun: '確定',
-            amount: '100',
-            pj_name: '運行管理システム保守',
-            startdate: '',
-            enddate:''
-          },
-          {
-            value: false,
-            classification: '進捗',
-            agreement: '請負',
-            orders: '問題なし',
-            users: '大東実業㈱',
-            supervision: '4課',
-            sales: '向山M',
-            pms: 'Aさん',
-            pls: 'PAさん',
-            kubun: '確定',
-            amount: '100',
-            pjname: '運行管理システム保守',
-            startdate: '',
-            enddate:''
-          },
-          {
-            value: false,
-            classification: '進捗',
-            agreement: '請負',
-            orders: '問題なし',
-            users: '大東実業㈱',
-            supervision: '4課',
-            sales: '向山M',
-            pms: 'Aさん',
-            pls: 'PAさん',
-            kubun: '確定',
-            amount: '100',
-            pjname: '運行管理システム保守',
-            startdate: '',
-            enddate:''
-          },
-          {
-            value: false,
-            classification: '進捗',
-            agreement: '請負',
-            orders: '問題なし',
-            users: '大東実業㈱',
-            supervision: '4課',
-            sales: '向山M',
-            pms: 'Aさん',
-            pls: 'PAさん',
-            kubun: '確定',
-            amount: '100',
-            pjname: '運行管理システム保守',
-            startdate: '',
-            enddate:''
-          },
-          {
-            value: false,
-            classification: '進捗',
-            agreement: '請負',
-            orders: '問題なし',
-            users: '大東実業㈱',
-            supervision: '4課',
-            sales: '向山M',
-            pms: 'Aさん',
-            pls: 'PAさん',
-            kubun: '確定',
-            amount: '100',
-            pjname: '運行管理システム保守',
-            startdate: '',
-            enddate:''
-          },
-          {
-            value: false,
-            classification: '進捗',
-            agreement: '請負',
-            orders: '問題なし',
-            users: '大東実業㈱',
-            supervision: '4課',
-            sales: '向山M',
-            pms: 'Aさん',
-            pls: 'PAさん',
-            kubun: '確定',
-            amount: '100',
-            pjname: '運行管理システム保守',
-            startdate: '',
-            enddate:''
-          },
-        ]
       }
     },
+    computed: {
+      ...mapGetters({
+        desserts: 'statusData/getPjData',
+      }),
+    },
+    mounted() {
+      this.loadData();
+    },
     methods:{
+        ...mapActions({
+          execCateList: 'statusData/findCateList'
+        }),
+        ...mapMutations({ toggleModal :'list/toggleModal'}),
+        loadData(){
+            this.execCateList().then(res => {
+
+            }).catch(err => {
+                console.log(err)
+            })
+        },
         showModal(item, isDialog){
           this.toggleModal(isDialog)
         },
@@ -232,7 +157,11 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
           this.toggleModal(isDialog = false)
           
         },
-        ...mapMutations({ toggleModal :'list/toggleModal'}),
+        test(value){
+          console.log(value)
+        }
+
+
     }
   }
 </script>
