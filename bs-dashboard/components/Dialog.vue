@@ -44,8 +44,8 @@
                   <v-icon dark>delete</v-icon>
                 </v-btn>
               </v-avatar>
-              
-              <Card :item='item'/>
+
+             <Card :item='item' @set="setData"/> 
             </v-timeline-item>
           </v-timeline>
         </v-container>
@@ -90,6 +90,7 @@ import { mapMutations, mapState, mapActions } from 'vuex'
     data: () => ({
       snackbar: false,
       text: '削除しますか？',
+      isEditMode:false,
       deleteData :{},
      items: [
         {
@@ -121,9 +122,14 @@ import { mapMutations, mapState, mapActions } from 'vuex'
     },
     methods:{
         addCard(){
-          if(this.items[0].tittle != moment().day(4).format('YYYY/MM/DD')){
-            this.items.unshift({status: 0, tittle: moment().day(4).format('YYYY/MM/DD') , value: ''})
+          if(this.isEditMode){
+            if(this.items[0].tittle != moment().day(4).format('YYYY/MM/DD')){
+              this.items.unshift({status: 0, tittle: moment().day(4).format('YYYY/MM/DD') , value: '', isNew: true})
+            }
+          }else{
+            console.log("ため")
           }
+          
         },
         showSnackbar(item){
           this.snackbar = true
@@ -133,7 +139,6 @@ import { mapMutations, mapState, mapActions } from 'vuex'
         deleteItem(){
           //TODO remove data
           let noJohn = this.items.filter( el => el.tittle !== this.deleteData.tittle ); 
-          console.log(noJohn)
           this.items = noJohn
         },
         showModal(isDialog){
@@ -141,7 +146,10 @@ import { mapMutations, mapState, mapActions } from 'vuex'
         },
         ...mapMutations({ 
           toggleModal :'list/toggleModal',
-        })
+        }), 
+        setData(data) {
+          this.isEditMode = data
+        }
     },
   }
 </script>

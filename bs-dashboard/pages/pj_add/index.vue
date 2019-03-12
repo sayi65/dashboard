@@ -357,7 +357,7 @@
 
 <script>
 import MenuList from '~/components/MenuList.vue'
-import commonMixin from '../mixins/const_add'
+import commonMixin from '~/mixins/const_add'
 import 'moment/locale/ja'
 import moment from 'moment'
 import { uuid } from 'vue-uuid';

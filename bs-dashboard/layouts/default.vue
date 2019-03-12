@@ -74,7 +74,7 @@
           { icon: 'apps', title: 'ホーム', to: '/' },
           { icon: 'bubble_chart', title: 'PJ追加', to: '/pj_add' },
           { icon: 'bubble_chart', title: 'PJ一覧', to: '/pj_list' },
-          { icon: 'bubble_chart', title: '進捗一覧', to: '/list' },
+          // { icon: 'bubble_chart', title: '進捗一覧', to: '/list' },
         ],
         miniVariant: false,
         right: true,

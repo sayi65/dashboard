@@ -30,6 +30,7 @@
       <template 
         slot="items"
         slot-scope="props">
+          <tr @click="showModal(props.item, openDialog = true)">
             <td>{{ props.item.classification }}</td>
             <td class="text-xs-center">{{ props.item.agreement }}</td>
             <td class="text-xs-center">{{ props.item.orders }}</td>
@@ -42,6 +43,7 @@
             <td class="text-xs-center">{{ props.item.amount }}</td>
             <td class="text-xs-center">{{ props.item.startdate }}</td>
             <td class="text-xs-center">{{ props.item.enddate }}</td>
+          </tr>
       </template>
       <v-alert 
         slot="no-results" 
@@ -53,15 +55,22 @@
     </v-data-table>
   </v-card>
 
+  <Dialog />
+
     </v-container>
 </template>
 
 <script>
 
-import { mapState, mapActions } from 'vuex'
-import commonMixin from '../mixins/const_list'
+import Dialog from '~/components/Dialog.vue'
+
+import { mapMutations, mapState, mapActions } from 'vuex'
+import commonMixin from '~/mixins/const_list'
   export default {
     name:'pj_list',
+    components: {
+        Dialog
+    },
     watchQuery: [
       'search'
     ],
@@ -84,6 +93,9 @@ import commonMixin from '../mixins/const_list'
       ...mapActions({
         execGetItems: 'data/findAll'
       }),
+      ...mapMutations({ 
+        toggleModal :'list/toggleModal'
+      }),
       load() {
         this.progress = true
         this.execGetItems().then(res => {
@@ -92,6 +104,9 @@ import commonMixin from '../mixins/const_list'
           console.log(err)
         })
       },
+      showModal(item, isDialog){
+          this.toggleModal(isDialog)
+        },
     },
   }
 </script>
