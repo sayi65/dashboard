@@ -6,14 +6,14 @@
         editable 
         step="1">業務進捗</v-stepper-step>
 
-      <v-divider></v-divider>
+      <v-divider/>
 
       <v-stepper-step 
         :complete="e1 > 2" 
         editable 
         step="2">業務内容</v-stepper-step>
 
-      <v-divider></v-divider>
+      <v-divider/>
 
       <v-stepper-step 
         editable 
@@ -30,65 +30,65 @@
           ref="form"
           style="height:360px"
           class="mb-5">
-            <v-card-text>
-                <v-select
-                    ref="区分"
-                    :rules="[() => !!classification || '必須項目です。']"
-                    :items="classification"
-                    label="区分"
-                    box
-                    outline
-                    v-model="createBsProject.classification"
-                    color="white"
-                    item-text="name"
-                    placeholder="選択してください。"
-                    required></v-select>
-                <v-select
-                    ref="請負"
-                    :rules="[() => !!agreement || '必須項目です。']"
-                    :items="agreement"
-                    box
-                    outline
-                    v-model="createBsProject.agreement"
-                    color="white"
-                    label="請負"
-                    placeholder="選択してください。"
-                    required></v-select>
-                <v-select
-                    ref="状況"
-                    :rules="[() => !!orders || '必須項目です。']"
-                    :items="orders"
-                    box
-                    outline
-                    v-model="createBsProject.orders"
-                    color="white"
-                    label="状況"
-                    placeholder="選択してください。"
-                    required></v-select>
-                <v-select
-                    ref="問題区分"
-                    :rules="[() => !!pb_classification || '必須項目です。']"
-                    :items="pb_classification"
-                    box
-                    outline
-                    v-model="createBsProject.pb_classification"
-                    color="white"
-                    label="問題区分"
-                    placeholder="選択してください。"
-                    required></v-select>
-            </v-card-text>
+          <v-card-text>
+            <v-select
+              ref="区分"
+              :rules="[() => !!classification || '必須項目です。']"
+              :items="classification"
+              v-model="createBsProject.classification"
+              label="区分"
+              box
+              outline
+              color="white"
+              item-text="name"
+              placeholder="選択してください。"
+              required/>
+            <v-select
+              ref="請負"
+              :rules="[() => !!agreement || '必須項目です。']"
+              :items="agreement"
+              v-model="createBsProject.agreement"
+              box
+              outline
+              color="white"
+              label="請負"
+              placeholder="選択してください。"
+              required/>
+            <v-select
+              ref="状況"
+              :rules="[() => !!orders || '必須項目です。']"
+              :items="orders"
+              v-model="createBsProject.orders"
+              box
+              outline
+              color="white"
+              label="状況"
+              placeholder="選択してください。"
+              required/>
+            <v-select
+              ref="問題区分"
+              :rules="[() => !!pb_classification || '必須項目です。']"
+              :items="pb_classification"
+              v-model="createBsProject.pb_classification"
+              box
+              outline
+              color="white"
+              label="問題区分"
+              placeholder="選択してください。"
+              required/>
+          </v-card-text>
         </v-card>
          
         <v-fab-transition>
-            <v-btn
-                @click="e1 = 2"
-                color="pink"
-                dark
-                absolute
-                right
-                fab>
-                <v-icon>chevron_right</v-icon>
-            </v-btn>
+          <v-btn
+            color="pink"
+            dark
+            absolute
+            right
+            fab
+            @click="e1 = 2">
+            <v-icon>chevron_right</v-icon>
+          </v-btn>
         </v-fab-transition>
       </v-stepper-content>
 
@@ -101,68 +101,81 @@
           class="mb-5">
           <v-card-text>
             <v-text-field
-                ref="users"
-                :rules="[
+              ref="users"
+              :rules="[
                 () => !!createBsProject.users || '必須項目です。',
                 () => !!createBsProject.users && createBsProject.users.length <= 150 || '業務名/内容を150文字以内に入力してください。'
-                ]"
-                counter="150"
-                v-model="createBsProject.users"
-                label="ユーザ"
-                clearable
-                outline
-                required>
-                <MenuList v-on:childToParent="onChildClick" slot="append" :menuData='menuUsersData' />
+              ]"
+              v-model="createBsProject.users"
+              counter="150"
+              label="ユーザ"
+              clearable
+              outline
+              required>
+              <MenuList 
+                slot="append" 
+                :menu-data="menuUsersData" 
+                @childToParent="onChildClick" />
                  
             </v-text-field>
             <v-text-field
-                ref="address"
-                :rules="[
+              ref="address"
+              :rules="[
                 () => !!createBsProject.pj_name || '必須項目です。',
                 () => !!createBsProject.pj_name && createBsProject.pj_name.length <= 150 || '業務名/内容を150文字以内に入力してください。'
-                ]"
-                v-model="createBsProject.pj_name"
-                label="業務名/内容"
-                counter="150"
-                clearable
-                outline
-                required>
+              ]"
+              v-model="createBsProject.pj_name"
+              label="業務名/内容"
+              counter="150"
+              clearable
+              outline
+              required>
                 
-                <MenuList v-on:childToParent="onPjClick" slot="append" :menuData='menuPJData' />
-                </v-text-field>
+              <MenuList 
+                slot="append" 
+                :menu-data="menuPJData" 
+                @childToParent="onPjClick" />
+            </v-text-field>
             <v-layout 
               align-center 
               justify-center 
               row 
               fill-height 
               wrap>
-              <v-flex xs12 sm6>
+              <v-flex 
+                xs12 
+                sm6>
                 <v-select
-                    ref="主菅"
-                    :rules="[() => !!createBsProject.supervision || '必須項目です。']"
-                    :items="supervision"
-                    label="主菅"
-                    color="white"
-                    box
-                    outline
-                    v-model="createBsProject.supervision"
-                    placeholder="選択してください。"
-                    required></v-select>
+                  ref="主菅"
+                  :rules="[() => !!createBsProject.supervision || '必須項目です。']"
+                  :items="supervision"
+                  v-model="createBsProject.supervision"
+                  label="主菅"
+                  color="white"
+                  box
+                  outline
+                  placeholder="選択してください。"
+                  required/>
               </v-flex>
-              <v-flex xs12 sm6>
+              <v-flex 
+                xs12 
+                sm6>
                 <v-text-field
-                    ref="営業"
-                    :rules="[() => !!createBsProject.sales || '必須項目です。']"
-                    label="営業"
-                    item-text="name"
-                    v-model="createBsProject.sales"
-                    outline
-                    clearable
-                    counter="50"
-                    required>
+                  ref="営業"
+                  :rules="[() => !!createBsProject.sales || '必須項目です。']"
+                  v-model="createBsProject.sales"
+                  label="営業"
+                  item-text="name"
+                  outline
+                  clearable
+                  counter="50"
+                  required>
                     
-                    <MenuList v-on:childToParent="onSalesClick" slot="append" :menuData='menuSalesData' />
-                    </v-text-field>
+                  <MenuList 
+                    slot="append" 
+                    :menu-data="menuSalesData" 
+                    @childToParent="onSalesClick" />
+                </v-text-field>
               </v-flex>
             </v-layout>
             <v-layout 
@@ -171,60 +184,70 @@
               row 
               fill-height 
               wrap>
-              <v-flex xs12 sm6>
+              <v-flex 
+                xs12 
+                sm6>
                 <v-text-field
-                    ref="PM"
-                    :rules="[() => !!createBsProject.pms || '必須項目です。']"
-                    label="PM"
-                    v-model="createBsProject.pms"
-                    outline
-                    clearable
-                    counter="50"
-                    required>
+                  ref="PM"
+                  :rules="[() => !!createBsProject.pms || '必須項目です。']"
+                  v-model="createBsProject.pms"
+                  label="PM"
+                  outline
+                  clearable
+                  counter="50"
+                  required>
                     
-                    <MenuList v-on:childToParent="onPMClick" slot="append" :menuData='menuPMData' />
-                    </v-text-field>
+                  <MenuList 
+                    slot="append" 
+                    :menu-data="menuPMData" 
+                    @childToParent="onPMClick" />
+                </v-text-field>
               </v-flex>
-              <v-flex xs12 sm6>
+              <v-flex 
+                xs12 
+                sm6>
                 <v-text-field
-                    ref="PL"
-                    :rules="[() => !!createBsProject.pls || '必須項目です。']"
-                    v-model="createBsProject.pls"
-                    label="PL"
-                    outline
-                    clearable
-                    counter="50"
-                    required>
+                  ref="PL"
+                  :rules="[() => !!createBsProject.pls || '必須項目です。']"
+                  v-model="createBsProject.pls"
+                  label="PL"
+                  outline
+                  clearable
+                  counter="50"
+                  required>
                     
-                    <MenuList v-on:childToParent="onPLClick" slot="append" :menuData='menuPLData' />
-                    </v-text-field>
+                  <MenuList 
+                    slot="append" 
+                    :menu-data="menuPLData" 
+                    @childToParent="onPLClick" />
+                </v-text-field>
               </v-flex>
             </v-layout>
-            </v-card-text>
+          </v-card-text>
         </v-card>
 
         <v-fab-transition>
-            <v-btn
-                color="pink"
-                @click="e1 = 1"
-                dark
-                absolute
-                left
-                fab>
-                <v-icon>chevron_left</v-icon>
-            </v-btn>
+          <v-btn
+            color="pink"
+            dark
+            absolute
+            left
+            fab
+            @click="e1 = 1">
+            <v-icon>chevron_left</v-icon>
+          </v-btn>
         </v-fab-transition>
 
         <v-fab-transition>
-            <v-btn
-                @click="e1 = 3"
-                color="pink"
-                dark
-                absolute
-                right
-                fab>
-                <v-icon>chevron_right</v-icon>
-            </v-btn>
+          <v-btn
+            color="pink"
+            dark
+            absolute
+            right
+            fab
+            @click="e1 = 3">
+            <v-icon>chevron_right</v-icon>
+          </v-btn>
         </v-fab-transition>
       </v-stepper-content>
 
@@ -237,101 +260,105 @@
           class="mb-5">
           <v-card-text>
 
-    <v-layout row wrap>
-    <v-flex xs11 sm5>
-      <v-menu
-        ref="menu"
-        :close-on-content-click="false"
-        v-model="startmenu"
-        :nudge-right="40"
-        lazy
-        transition="scale-transition"
-        offset-y
-        full-width
-        max-width="290px"
-        min-width="290px"
-      >
-        <v-text-field
-          slot="activator"
-          v-model="createBsProject.startdate"
-          clearable
-          label="開始時期"
-          prepend-icon="event"
-          readonly
-        ></v-text-field>
-        <v-date-picker
-          v-model="createBsProject.startdate"
-          type="month"
-          no-title
-          locale="jp"
-          @input="startmenu = false"
-        >
-        </v-date-picker>
-      </v-menu>
-    </v-flex>
-    <v-spacer></v-spacer>
-    <v-flex xs11 sm5>
-        <v-menu
-            ref="menu"
-            :close-on-content-click="false"
-            v-model="endmenu"
-            :nudge-right="40"
-            lazy
-            transition="scale-transition"
-            offset-y
-            full-width
-            max-width="290px"
-            min-width="290px">
-        <v-text-field
-          slot="activator"
-          v-model="createBsProject.enddate"
-          clearable
-          label="終了時期"
-          prepend-icon="event"
-          readonly
-        ></v-text-field>
-        <v-date-picker 
-            v-model="createBsProject.enddate" 
-            type="month" 
-            no-title
-            locale="jp"
-            @input="endmenu = false">
-        </v-date-picker>
-        </v-menu>
-    </v-flex>
-    </v-layout>
+            <v-layout 
+              row 
+              wrap>
+              <v-flex 
+                xs11 
+                sm5>
+                <v-menu
+                  ref="menu"
+                  :close-on-content-click="false"
+                  v-model="startmenu"
+                  :nudge-right="40"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    v-model="createBsProject.startdate"
+                    clearable
+                    label="開始時期"
+                    prepend-icon="event"
+                    readonly
+                  />
+                  <v-date-picker
+                    v-model="createBsProject.startdate"
+                    type="month"
+                    no-title
+                    locale="jp"
+                    @input="startmenu = false"
+                  />
+                </v-menu>
+              </v-flex>
+              <v-spacer/>
+              <v-flex 
+                xs11 
+                sm5>
+                <v-menu
+                  ref="menu"
+                  :close-on-content-click="false"
+                  v-model="endmenu"
+                  :nudge-right="40"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  max-width="290px"
+                  min-width="290px">
+                  <v-text-field
+                    slot="activator"
+                    v-model="createBsProject.enddate"
+                    clearable
+                    label="終了時期"
+                    prepend-icon="event"
+                    readonly
+                  />
+                  <v-date-picker 
+                    v-model="createBsProject.enddate" 
+                    type="month" 
+                    no-title
+                    locale="jp"
+                    @input="endmenu = false"/>
+                </v-menu>
+              </v-flex>
+            </v-layout>
 
-    <v-select
-      ref="金額区分"
-      :rules="[() => !!kubun || '必須項目です。']"
-      :items="kubun"
-      box
-      outline
-      v-model="createBsProject.kubun"
-      color="white"
-      label="金額区分"
-      placeholder="選択してください。"
-      required></v-select>
-    <v-text-field
-      ref="amount"
-      v-model="createBsProject.amount"
-      label="金額"
-      prefix="￥"
-      outline
-      type="number"
-      required></v-text-field>  
-  </v-card-text>
-</v-card>
+            <v-select
+              ref="金額区分"
+              :rules="[() => !!kubun || '必須項目です。']"
+              :items="kubun"
+              v-model="createBsProject.kubun"
+              box
+              outline
+              color="white"
+              label="金額区分"
+              placeholder="選択してください。"
+              required/>
+            <v-text-field
+              ref="amount"
+              v-model="createBsProject.amount"
+              label="金額"
+              prefix="￥"
+              outline
+              type="number"
+              required/>  
+          </v-card-text>
+        </v-card>
         <v-fab-transition>
-            <v-btn
-                color="pink"
-                @click="e1 = 2"
-                dark
-                absolute
-                left
-                fab>
-                <v-icon>chevron_left</v-icon>
-            </v-btn>
+          <v-btn
+            color="pink"
+            dark
+            absolute
+            left
+            fab
+            @click="e1 = 2">
+            <v-icon>chevron_left</v-icon>
+          </v-btn>
         </v-fab-transition>
 
         <v-btn
@@ -346,11 +373,13 @@
       </v-stepper-content>
     </v-stepper-items>
 
-    <div class="text-xs-center" v-if="loading">
-        <v-progress-circular
-            :size="50"
-            color="blue"
-            indeterminate></v-progress-circular>
+    <div 
+      v-if="loading" 
+      class="text-xs-center">
+      <v-progress-circular
+        :size="50"
+        color="blue"
+        indeterminate/>
     </div>
   </v-stepper>
 </template>
@@ -360,105 +389,112 @@ import MenuList from '~/components/MenuList.vue'
 import commonMixin from '~/mixins/const_add'
 import 'moment/locale/ja'
 import moment from 'moment'
-import { uuid } from 'vue-uuid';
+import { uuid } from 'vue-uuid'
 import { mapGetters, mapActions } from 'vuex'
 
-  export default {
-    mixins: [commonMixin],
-    components: {
-        MenuList
-    },
-    data () { 
-      return {
-        e1: 0,
-        loading: false,
-        startmenu: false,
-        endmenu: false,
-        createBsProject: {
-            agreement: '',
-            amount: 0,
-            classification: '',
-            enddate: moment().toISOString().substr(0, 7),
-            kubun: '',
-            orders: '',
-            pb_classification: '',
-            pj_name: '',
-            pls: '',
-            pms: '',
-            sales: '',
-            startdate: moment().toISOString().substr(0, 7),
-            supervision: '',
-            users: '',
-            projectId: uuid.v4()
-        }
+export default {
+  components: {
+    MenuList
+  },
+  mixins: [commonMixin],
+  data() {
+    return {
+      e1: 0,
+      loading: false,
+      startmenu: false,
+      endmenu: false,
+      createBsProject: {
+        agreement: '',
+        amount: 0,
+        classification: '',
+        enddate: moment()
+          .toISOString()
+          .substr(0, 7),
+        kubun: '',
+        orders: '',
+        pb_classification: '',
+        pj_name: '',
+        pls: '',
+        pms: '',
+        sales: '',
+        startdate: moment()
+          .toISOString()
+          .substr(0, 7),
+        supervision: '',
+        users: '',
+        projectId: uuid.v4()
       }
+    }
+  },
+  computed: {
+    ...mapGetters({
+      menuUsersData: 'data/getUserData',
+      menuPJData: 'data/getPjData',
+      menuSalesData: 'data/getSalesData',
+      menuPMData: 'data/getPMData',
+      menuPLData: 'data/getPLData'
+    })
+  },
+  mounted() {
+    this.loadData()
+  },
+  methods: {
+    ...mapActions({
+      execMenuList: 'data/findMenuList',
+      execSaveDatas: 'data/saveData'
+    }),
+    loadData() {
+      this.execMenuList()
+        .then(res => {})
+        .catch(err => {
+          console.log(err)
+        })
     },
-    computed: {
-      ...mapGetters({
-        menuUsersData: 'data/getUserData',
-        menuPJData: 'data/getPjData',
-        menuSalesData: 'data/getSalesData',
-        menuPMData: 'data/getPMData',
-        menuPLData: 'data/getPLData'
-      }),
+    onChildClick(users) {
+      this.createBsProject.users = users
     },
-    mounted() {
-      this.loadData();
+    onPjClick(value) {
+      this.createBsProject.pj_name = value
     },
-    methods: {
-        ...mapActions({
-            execMenuList: 'data/findMenuList',
-            execSaveDatas: 'data/saveData'
-        }),
-        loadData(){
-            this.execMenuList().then(res => {
-
-            }).catch(err => {
-                console.log(err)
-            })
-        },
-        onChildClick(users){
-          this.createBsProject.users = users
-        },
-        onPjClick(value){
-          this.createBsProject.pj_name = value
-        },
-        onSalesClick(value){
-          this.createBsProject.sales = value
-        },
-        onPMClick(value){
-          this.createBsProject.pms = value
-        },
-        onPLClick(value){
-          this.createBsProject.pls = value
-        },
-        save(){
-           //TODO 保存処理
-            this.loading = true
-            this.execSaveDatas(this.createBsProject).then(
-                res => {
-                    
-                    this.loading = false
-                    this.createBsProject.classification = ''
-                    this.createBsProject.agreement = ''
-                    this.createBsProject.orders= ''
-                    this.createBsProject.pb_classification = ''
-                    this.createBsProject.users = ''
-                    this.createBsProject.pj_name = ''
-                    this.createBsProject.supervision = ''
-                    this.createBsProject.sales= ''
-                    this.createBsProject.pms = ''
-                    this.createBsProject.pls = ''
-                    this.createBsProject.startdate = moment().toISOString().substr(0, 7)
-                    this.createBsProject.enddate =  moment().toISOString().substr(0, 7)
-                    this.createBsProject.kubun = ''
-                    this.createBsProject.amount = 0
-                    this.e1 = 1
-                    
-                }).catch(err => {
-                    console.log(err)
-                })
-        }
+    onSalesClick(value) {
+      this.createBsProject.sales = value
     },
+    onPMClick(value) {
+      this.createBsProject.pms = value
+    },
+    onPLClick(value) {
+      this.createBsProject.pls = value
+    },
+    save() {
+      //TODO 保存処理
+      this.loading = true
+      this.execSaveDatas(this.createBsProject)
+        .then(res => {
+          this.loading = false
+          this.createBsProject.classification = ''
+          this.createBsProject.agreement = ''
+          this.createBsProject.orders = ''
+          this.createBsProject.pb_classification = ''
+          this.createBsProject.users = ''
+          this.createBsProject.pj_name = ''
+          this.createBsProject.supervision = ''
+          this.createBsProject.sales = ''
+          this.createBsProject.pms = ''
+          this.createBsProject.pls = ''
+          this.createBsProject.startdate = moment()
+            .toISOString()
+            .substr(0, 7)
+          this.createBsProject.enddate = moment()
+            .toISOString()
+            .substr(0, 7)
+          this.createBsProject.kubun = ''
+          this.createBsProject.amount = 0
+          this.e1 = 1
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
   }
+}
 </script>
