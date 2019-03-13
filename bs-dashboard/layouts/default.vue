@@ -57,7 +57,7 @@
       :fixed="fixed"
       app
     >
-      <span>&copy; 2017</span>
+      <span>&copy; ISB 2019</span>
     </v-footer>
   </v-app>
 </template>
@@ -72,8 +72,8 @@
         fixed: false,
         items: [
           { icon: 'apps', title: 'ホーム', to: '/' },
-          { icon: 'bubble_chart', title: 'PJ追加', to: '/pj_add' },
-          { icon: 'bubble_chart', title: 'PJ一覧', to: '/pj_list' },
+          { icon: 'add_circle_outline', title: 'PJ追加', to: '/pj_add' },
+          { icon: 'list', title: 'PJ一覧', to: '/pj_list' },
           // { icon: 'bubble_chart', title: '進捗一覧', to: '/list' },
         ],
         miniVariant: false,

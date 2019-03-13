@@ -4,7 +4,6 @@
         text-xs-center>
          <v-card>
     <v-card-title>
-      検索
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -20,12 +19,19 @@
       :search="search"
       :loading="progress"
       class="elevation-1"
+      no-data-text="データ読み込み中。。。"
     >
     <v-progress-linear 
         slot="progress" 
         color="blue"
         indeterminate
         ></v-progress-linear>
+
+           <template v-slot:no-data>
+      <v-alert :value="true" color="error" icon="warning">
+        Sorry, nothing to display here :(
+      </v-alert>
+    </template>
 
       <template 
         slot="items"
@@ -96,14 +102,15 @@ import commonMixin from '~/mixins/const_list'
       ...mapMutations({ 
         toggleModal :'list/toggleModal'
       }),
-      load() {
+      async load() {
         this.progress = true
-        this.execGetItems().then(res => {
+        await this.execGetItems().then(res => {
           this.progress = false
         }).catch(err => {
           console.log(err)
         })
       },
+
       showModal(item, isDialog){
           this.toggleModal(isDialog)
         },
