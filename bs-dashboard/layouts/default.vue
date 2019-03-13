@@ -68,7 +68,7 @@ export default {
     return {
       dark: true,
       clipped: false,
-      drawer: true,
+      drawer: false,
       fixed: false,
       items: [
         { icon: 'apps', title: 'ホーム', to: '/' },
