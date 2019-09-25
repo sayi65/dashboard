@@ -11,7 +11,8 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    mkdir -p /var/www/html
+    cd
+    sudo mkdir -p /var/www/html
     npm install
     npm run dev
   displayName: 'Install dependencies'
